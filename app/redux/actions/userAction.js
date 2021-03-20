@@ -34,12 +34,15 @@ const requestLogin = (payload) => async (dispatch) => {
         const response = await axios.post('/user/signin', payload);
         const status = response.status;
         const data = response.data;
-        if (status === 201) {
+        if (status === 200) {
+            console.log(status, 'berhasil <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
             dispatch({ type: REQ_LOGIN_SUCCESS, data });
         } else {
+            console.log('error atas <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
             dispatch({ type: REQ_LOGIN_FAILED, errResponse: response });
         }
     } catch (error) {
+        console.log('error bawah <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
         dispatch({
             type: REQ_LOGIN_FAILED,
             errResponse: error.message || error,

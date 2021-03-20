@@ -27,6 +27,11 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline',
         marginTop: 30,
     },
+    errorText: {
+        color: 'red',
+        alignSelf: 'flex-end',
+        marginBottom: 20,
+    },
 });
 
 export { styles };

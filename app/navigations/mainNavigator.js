@@ -1,8 +1,7 @@
-/* eslint-disable prettier/prettier */
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { Login, Chat, Register } from '../navigations/views';
+import { Login, Chat, Register, ChatList } from '../navigations/views';
 
 const Stack = createStackNavigator();
 
@@ -11,6 +10,7 @@ const MainNavigator = () => {
         <Stack.Navigator>
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+            <Stack.Screen name="ChatList" component={ChatList} />
             <Stack.Screen
                 name="Chat"
                 component={Chat}

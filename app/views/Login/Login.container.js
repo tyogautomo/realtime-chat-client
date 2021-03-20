@@ -2,10 +2,17 @@
 import { connect } from 'react-redux';
 
 import { Login } from './Login.view';
+import { requestLogin } from '../../redux/actions/userAction';
 
-const mapDispatchToProps = dispatch => ({});
+const mapStateToProps = state => ({
+    errResponseLogin: state.userReducer.errResponseLogin,
+});
+
+const mapDispatchToProps = dispatch => ({
+    requestLogin: payload => dispatch(requestLogin(payload)),
+});
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(Login);

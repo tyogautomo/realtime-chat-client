@@ -1,48 +1,65 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import { TextInput, View, Text, Button, TouchableOpacity } from 'react-native';
 
 import { styles } from './Login.style';
 
-function Login({ navigation }) {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+class Login extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+            password: '',
+        };
+    }
 
-    const onPressLogin = () => {
-        if (username) {
-            navigation.navigate('Chat', {
-                username,
-            });
+    onPressLogin = async () => {
+        const { username, password } = this.state;
+        const { requestLogin, navigation } = this.props;
+        if (username && password) {
+            const payload = { username, password };
+            await requestLogin(payload);
+            const { errResponseLogin } = this.props;
+            if (!errResponseLogin) {
+                navigation.navigate('ChatList', {
+                    username,
+                });
+            }
         }
-        setUsername('');
-        setPassword('');
+        this.setState({ username: '', password: '' });
     };
 
-    const onPressSignUp = () => {
+    onPressSignUp = () => {
+        const { navigation } = this.props;
         navigation.navigate('Register');
     };
 
-    return (
-        <View style={styles.containerLogin}>
-            <Text style={styles.title}>Chatz</Text>
-            <TextInput
-                style={styles.authInput}
-                placeholder="Username..."
-                onChangeText={(text) => setUsername(text)}
-                value={username}
-            />
-            <TextInput
-                style={styles.authInput}
-                placeholder="Password..."
-                onChangeText={(text) => setPassword(text)}
-                value={password}
-            />
-            <Button title="Login" onPress={onPressLogin} />
-            <TouchableOpacity onPress={onPressSignUp}>
-                <Text style={styles.signupButton}>Create an Account</Text>
-            </TouchableOpacity>
-        </View>
-    );
-};
+    render() {
+        const { username, password } = this.state;
+        const { errResponseLogin } = this.props;
+        return (
+            <View style={styles.containerLogin}>
+                <Text style={styles.title}>Chatz</Text>
+                <TextInput
+                    style={styles.authInput}
+                    placeholder="Username..."
+                    onChangeText={(text) => this.setState({ username: text })}
+                    value={username}
+                />
+                <TextInput
+                    style={styles.authInput}
+                    placeholder="Password..."
+                    onChangeText={(text) => this.setState({ password: text })}
+                    value={password}
+                />
+                {errResponseLogin && (<Text style={styles.errorText}>{errResponseLogin}</Text>)}
+                <Button title="Login" onPress={this.onPressLogin} />
+                <TouchableOpacity onPress={this.onPressSignUp}>
+                    <Text style={styles.signupButton}>Create an Account</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+}
 
 export { Login };
