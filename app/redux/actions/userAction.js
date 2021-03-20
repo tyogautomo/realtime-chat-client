@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import axios from '../axios';
 import {
     REQ_LOGIN,
