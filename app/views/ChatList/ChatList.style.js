@@ -61,6 +61,15 @@ const styles = StyleSheet.create({
     color: '#858585',
     fontSize: 15,
   },
+  emptyList: {
+    marginTop: 80,
+    width: '100%',
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontSize: 20,
+    color: '#c4c4c4',
+  },
 });
 
 export { styles };

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { io } from 'socket.io-client';
 import { TextInput, View, ScrollView, Text, TouchableOpacity } from 'react-native';

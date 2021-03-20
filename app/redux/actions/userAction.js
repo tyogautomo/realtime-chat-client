@@ -6,6 +6,7 @@ import {
     REQ_REGISTER,
     REQ_REGISTER_FAILED,
     REQ_REGISTER_SUCCESS,
+    STORE_ACTIVE_ROOMS,
 } from '../actionTypes';
 
 const requestRegister = (payload) => async (dispatch) => {
@@ -34,14 +35,11 @@ const requestLogin = (payload) => async (dispatch) => {
         const status = response.status;
         const data = response.data;
         if (status === 200) {
-            console.log(status, 'berhasil <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
             dispatch({ type: REQ_LOGIN_SUCCESS, data });
         } else {
-            console.log('error atas <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
             dispatch({ type: REQ_LOGIN_FAILED, errResponse: response });
         }
     } catch (error) {
-        console.log('error bawah <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
         dispatch({
             type: REQ_LOGIN_FAILED,
             errResponse: error.message || error,
@@ -49,7 +47,15 @@ const requestLogin = (payload) => async (dispatch) => {
     }
 };
 
+const storeActiveRooms = (rooms) => dispatch => {
+    dispatch({
+        type: STORE_ACTIVE_ROOMS,
+        rooms,
+    });
+};
+
 export {
     requestRegister,
     requestLogin,
+    storeActiveRooms,
 };

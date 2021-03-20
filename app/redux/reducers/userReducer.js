@@ -1,3 +1,5 @@
+import { io } from 'socket.io-client';
+
 import {
     REQ_LOGIN,
     REQ_LOGIN_FAILED,
@@ -5,6 +7,7 @@ import {
     REQ_REGISTER,
     REQ_REGISTER_SUCCESS,
     REQ_REGISTER_FAILED,
+    STORE_ACTIVE_ROOMS
 } from '../actionTypes';
 
 const initialState = {
@@ -14,6 +17,7 @@ const initialState = {
     errResponseLogin: null,
     user: {
         username: '',
+        activeChats: [],
     },
 };
 
@@ -54,6 +58,14 @@ const userReducer = (state = initialState, action) => {
                 isRequestLogin: false,
                 errResponseLogin: action.errResponse,
             };
+        case STORE_ACTIVE_ROOMS: {
+            const updatedUser = { ...state.user };
+            updatedUser.activeChats = action.rooms;
+            return {
+                ...state,
+                user: updatedUser,
+            };
+        }
         default:
             return state;
     }

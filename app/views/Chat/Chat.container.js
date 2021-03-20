@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 
 import { Chat } from './Chat.view';
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+    socket: state.userReducer.socket,
+});
 
-const mapDispatchToProps = dispatc => ({});
+const mapDispatchToProps = dispatch => ({});
 
 export default connect(
     mapStateToProps,
