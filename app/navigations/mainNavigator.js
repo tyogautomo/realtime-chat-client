@@ -13,11 +13,11 @@ class MainNavigator extends Component {
       <Stack.Navigator>
         {user.username ? (
           <>
-            <Stack.Screen name="ChatList" component={ChatList} options={{title: 'Chatz'}} />
+            <Stack.Screen name="ChatList" component={ChatList} options={{ title: 'Chatz' }} />
             <Stack.Screen
               name="Chat"
               component={Chat}
-              options={({ route }) => ({ title: `Chat as "${route?.params.username}"` })}
+              options={{ title: `Chat as "${user.username}"` }}
             />
           </>
         ) : (
