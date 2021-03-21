@@ -8,10 +8,9 @@ import {
     STORE_ACTIVE_ROOMS,
     CONNECT_SOCKET,
 } from '../actionTypes';
-import { SocketManager } from '../../socket/socketManager';
 
 const initialState = {
-    socketManager: new SocketManager(),
+    socketManager: null,
     isRequestRegister: false,
     isRequestLogin: false,
     errResponseRegister: null,

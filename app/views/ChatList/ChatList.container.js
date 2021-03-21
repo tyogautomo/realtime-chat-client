@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { ChatList } from './ChatList.view';
-import { storeActiveRooms, initSocket } from '../../redux/actions/userAction';
+import { initSocket } from '../../redux/actions/userAction';
 
 const mapStateToProps = state => ({
   user: state.userReducer.user,
@@ -9,7 +9,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  storeActiveRooms: (payload) => dispatch(storeActiveRooms(payload)),
   initSocket: () => dispatch(initSocket()),
 });
 

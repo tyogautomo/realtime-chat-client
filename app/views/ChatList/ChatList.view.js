@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { io } from 'socket.io-client';
 import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
 
 import { styles } from './ChatList.style';
@@ -20,23 +19,24 @@ class ChatList extends Component {
 
   connectSocket = () => {
     const { initSocket, socketManager } = this.props;
-    if (!socketManager.socket) {
-      console.log('need to connect socket <<<<<<<');
+    if (!socketManager?.socket?.emit) {
+      console.log('NEED to connect socket <<<<<<<');
       initSocket();
     } else {
-      console.log('no need to connect ~~~~');
+      console.log('NO NEED to connect ~~~~');
     }
   }
 
   onPressFriendList = () => {
     const { navigation } = this.props;
-    navigation.naviate('FriendList');
+    navigation.navigate('FriendList');
   }
 
   onPressChat = (chat) => () => {
     const { navigation } = this.props;
     navigation.navigate('Chat', {
-      recipient: chat?.recipient?.username,
+      recipient: chat.recipient,
+      roomId: chat._id,
     });
   }
 

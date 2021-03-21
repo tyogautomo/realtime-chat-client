@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { Chat } from './Chat.view';
 
 const mapStateToProps = state => ({
-    socket: state.userReducer.socket,
+    socketManager: state.userReducer.socketManager,
+    user: state.userReducer.user,
 });
 
 const mapDispatchToProps = dispatch => ({});

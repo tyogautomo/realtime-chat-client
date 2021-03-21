@@ -56,6 +56,7 @@ const initSocket = () => (dispatch, getState) => {
     socketManager.connect('http://10.0.2.2:3000');
     socketManager.socket.emit('get active chats', user.username);
     socketManager.socket.on('get active chats', activeChats => {
+        console.log('dapet active chats nya <<<<<<');
         storeActiveRooms(activeChats);
     });
     dispatch({ type: CONNECT_SOCKET, socketManager });

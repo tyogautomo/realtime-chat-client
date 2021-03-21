@@ -18,7 +18,7 @@ class MainNavigator extends Component {
             <Stack.Screen
               name="Chat"
               component={Chat}
-              options={({ route }) => ({ title: `${route.params?.recipient}` })}
+              options={({ route }) => ({ title: `${route.params?.recipient?.username}` })}
             />
           </>
         ) : (
