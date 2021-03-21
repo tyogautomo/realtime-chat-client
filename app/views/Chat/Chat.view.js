@@ -19,7 +19,6 @@ class Chat extends Component {
         }, 50);
         this.initSocketListener();
         this.fetchMessages();
-        this.joinRoom();
     }
 
     initSocketListener = () => {
@@ -34,12 +33,6 @@ class Chat extends Component {
                 this.scrollViewRef.scrollToEnd({ animated: true });
             });
         });
-    }
-
-    componentWillUnmount() {
-        const { socketManager, route } = this.props;
-        const { roomId } = route?.params;
-        socketManager.socket.emit('leave room', roomId);
     }
 
     onSendChat = () => {
@@ -57,12 +50,6 @@ class Chat extends Component {
         }
         this.setState({ message: '' });
     };
-
-    joinRoom = () => {
-        const { socketManager, route } = this.props;
-        const { roomId } = route?.params;
-        socketManager.socket.emit('join room', roomId);
-    }
 
     fetchMessages = () => {
         const { socketManager, route } = this.props;

@@ -55,8 +55,11 @@ const initSocket = () => (dispatch, getState) => {
 
     const socketManager = new SocketManager();
     socketManager.connect('http://10.0.2.2:3000');
-    socketManager.socket.emit('get active chats', user._id);
-    socketManager.socket.on('get active chats', activeChats => {
+    const socket = socketManager.socket;
+    socket.emit('get active chats', user._id);
+    socket.on('get active chats', activeChats => {
+        const roomIds = activeChats.map(room => room._id);
+        socket.emit('join room', roomIds);
         dispatch(storeActiveRooms(activeChats));
     });
     dispatch({ type: CONNECT_SOCKET, socketManager });
