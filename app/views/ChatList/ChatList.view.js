@@ -41,7 +41,10 @@ class ChatList extends Component {
   renderChatItem = (chat, i) => {
     const { user } = this.props;
     const { username } = chat?.participants?.filter(userInfo => userInfo.username !== user.username)[0];
-    const lastMessage = chat?.lastMessage?.message || 'no message';
+    let lastMessage = chat?.lastMessage?.message || 'no message';
+    if (lastMessage.length > 25) {
+      lastMessage = `${lastMessage?.slice(0, 25)}...`;
+    }
     return (
       <TouchableOpacity key={i} style={styles.chatCardContainer} activeOpacity={0.6} onPress={this.onPressChat(chat)}>
         <View style={styles.avatar}>

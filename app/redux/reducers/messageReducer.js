@@ -9,12 +9,12 @@ const messageReducer = (state = initialState, action) => {
     case STORE_ROOM_MESSAGES:
       return {
         ...state,
-        messages: action.messages,
+        messages: action.messages?.reverse(),
       };
     case STORE_NEW_MESSAGE:
       return {
         ...state,
-        messages: [...state.messages, action.message],
+        messages: [action.message, ...state.messages],
       };
     default:
       return state;

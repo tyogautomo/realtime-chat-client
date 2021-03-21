@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, View, ScrollView, Text, TouchableOpacity } from 'react-native';
+import { TextInput, View, ScrollView, FlatList, Text, TouchableOpacity } from 'react-native';
 
 import { styles } from './Chat.style';
 
@@ -14,9 +14,6 @@ class Chat extends Component {
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            this.scrollViewRef.scrollToEnd({ animated: false });
-        }, 50);
         this.fetchMessages();
     }
 
@@ -42,16 +39,14 @@ class Chat extends Component {
         socketManager.socket.emit('fetch messages', roomId);
     }
 
-    renderChatItem = (chat, i) => {
+    renderChatItem = ({ item }) => {
+        const chat = item;
         const { route } = this.props;
         const { username: currentUsername } = route?.params?.user;
         const { username: chatSenderUsername } = chat?.sender;
         const isMine = currentUsername === chatSenderUsername;
         return (
-            <View
-                key={i}
-                style={isMine ? styles.chatBox : styles.chatBoxOther}
-            >
+            <View style={isMine ? styles.chatBox : styles.chatBoxOther}>
                 <Text style={styles.username}>{isMine ? 'You' : chatSenderUsername}</Text>
                 <Text style={isMine ? styles.textChat : styles.textChatOther}>{chat.message}</Text>
             </View>
@@ -62,9 +57,13 @@ class Chat extends Component {
         const { messages } = this.props;
         return (
             <View style={styles.container}>
-                <ScrollView style={styles.chatListContainer} ref={ref => { this.scrollViewRef = ref; }}>
-                    {messages.map((message, i) => this.renderChatItem(message, i))}
-                </ScrollView>
+                <FlatList
+                    inverted
+                    data={messages}
+                    renderItem={this.renderChatItem}
+                    keyExtractor={item => item._id}
+                    style={styles.chatListContainer}
+                />
                 <View style={styles.inputBoxContainer}>
                     <View style={styles.chatInputBox}>
                         <TextInput
