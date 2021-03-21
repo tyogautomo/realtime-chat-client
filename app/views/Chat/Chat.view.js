@@ -8,8 +8,8 @@ class Chat extends Component {
         super(props);
         this.scrollViewRef;
         this.state = {
-            chat: '',
-            chats: [],
+            message: '',
+            messages: [],
         };
     }
 
@@ -17,19 +17,20 @@ class Chat extends Component {
         setTimeout(() => {
             this.scrollViewRef.scrollToEnd({ animated: false });
         }, 50);
-        // this.initSocketListener();
-        // this.fetchMessages();
+        this.initSocketListener();
+        this.fetchMessages();
         this.joinRoom();
     }
 
     initSocketListener = () => {
-        const { socketManager } = this.props;
+        const { socketManager, updateActiveRooms } = this.props;
 
-        socketManager.socket.on('fetch message', messages => {
-            this.setState({ chats: messages });
+        socketManager.socket.on('fetch messages', messages => {
+            this.setState({ messages });
         });
-        socketManager.socket.on('send message', msg => {
-            this.setState({ chats: [...this.state.chats, msg] }, () => {
+        socketManager.socket.on('send message', ({ message, updatedRoom }) => {
+            updateActiveRooms(updatedRoom);
+            this.setState({ messages: [...this.state.messages, message] }, () => {
                 this.scrollViewRef.scrollToEnd({ animated: true });
             });
         });
@@ -44,17 +45,17 @@ class Chat extends Component {
     onSendChat = () => {
         const { route, socketManager, user } = this.props;
         const { roomId, recipient } = route?.params;
-        const { chat } = this.state;
-        if (this.state.chat) {
+        const { message } = this.state;
+        if (message) {
             const payload = {
                 senderId: user._id,
                 recipientId: recipient._id,
                 roomId,
-                message: chat,
+                message: message,
             };
             socketManager.socket.emit('send message', payload);
         }
-        this.setState({ chat: '' });
+        this.setState({ message: '' });
     };
 
     joinRoom = () => {
@@ -64,39 +65,41 @@ class Chat extends Component {
     }
 
     fetchMessages = () => {
-        const { socketManager } = this.props;
-        socketManager.socket.emit('fetch message');
+        const { socketManager, route } = this.props;
+        const { roomId } = route?.params;
+        socketManager.socket.emit('fetch messages', roomId);
     }
 
-    renderChatItem = (item, i) => {
+    renderChatItem = (chat, i) => {
         const { route } = this.props;
-        const currentUsername = route?.params.username;
-        const isMine = currentUsername === item.username;
+        const { username: currentUsername } = route?.params?.user;
+        const { username: chatSenderUsername } = chat?.sender;
+        const isMine = currentUsername === chatSenderUsername;
         return (
             <View
                 key={i}
                 style={isMine ? styles.chatBox : styles.chatBoxOther}
             >
-                <Text style={styles.username}>{isMine ? 'You' : item.username}</Text>
-                <Text style={isMine ? styles.textChat : styles.textChatOther}>{item.message}</Text>
+                <Text style={styles.username}>{isMine ? 'You' : chat.username}</Text>
+                <Text style={isMine ? styles.textChat : styles.textChatOther}>{chat.message}</Text>
             </View>
         );
     }
 
     render() {
-        const { chats } = this.state;
+        const { messages } = this.state;
         return (
             <View style={styles.container}>
                 <ScrollView style={styles.chatListContainer} ref={ref => { this.scrollViewRef = ref; }}>
-                    {chats.map((chat, i) => this.renderChatItem(chat, i))}
+                    {messages.map((message, i) => this.renderChatItem(message, i))}
                 </ScrollView>
                 <View style={styles.inputBoxContainer}>
                     <View style={styles.chatInputBox}>
                         <TextInput
                             style={styles.textInput}
                             placeholder="Type text..."
-                            onChangeText={(chat) => this.setState({ chat })}
-                            value={this.state.chat}
+                            onChangeText={(message) => this.setState({ message })}
+                            value={this.state.message}
                             multiline={true}
                         />
                         <TouchableOpacity style={styles.sendButton} activeOpacity={0.8} onPress={this.onSendChat}>

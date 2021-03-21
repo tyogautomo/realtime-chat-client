@@ -7,6 +7,7 @@ import {
     REQ_REGISTER_FAILED,
     STORE_ACTIVE_ROOMS,
     CONNECT_SOCKET,
+    UPDATE_ACTIVE_ROOMS,
 } from '../actionTypes';
 
 const initialState = {
@@ -65,6 +66,23 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 user: updatedUser,
+            };
+        }
+        case UPDATE_ACTIVE_ROOMS: {
+            const user = { ...state.user };
+            const activeChats = [...user.activeChats];
+            const updatedChat = action.activeChat;
+            const newActiveChats = activeChats.map(chat => {
+                if (chat._id.toString() === updatedChat._id.toString()) {
+                    return updatedChat;
+                } else {
+                    return chat;
+                }
+            });
+            user.activeChats = newActiveChats;
+            return {
+                ...state,
+                user,
             };
         }
         case CONNECT_SOCKET: {

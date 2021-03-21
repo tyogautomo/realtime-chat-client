@@ -7,10 +7,6 @@ class ChatList extends Component {
   constructor(props) {
     super(props);
     this.scrollViewRef;
-    this.state = {
-      chat: '',
-      chats: [],
-    };
   }
 
   componentDidMount() {
@@ -33,8 +29,9 @@ class ChatList extends Component {
   }
 
   onPressChat = (chat) => () => {
-    const { navigation } = this.props;
+    const { navigation, user } = this.props;
     navigation.navigate('Chat', {
+      user,
       recipient: chat.recipient,
       roomId: chat._id,
     });
@@ -42,7 +39,7 @@ class ChatList extends Component {
 
   renderChatItem = (chat, i) => {
     const username = chat?.recipient?.username || '';
-    const lastMessage = chat?.lastMessage || 'no message';
+    const lastMessage = chat?.lastMessage?.message || 'no message';
     return (
       <TouchableOpacity key={i} style={styles.chatCardContainer} activeOpacity={0.6} onPress={this.onPressChat(chat)}>
         <View style={styles.avatar}>

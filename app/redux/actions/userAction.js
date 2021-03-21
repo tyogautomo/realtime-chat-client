@@ -7,7 +7,8 @@ import {
     REQ_REGISTER_FAILED,
     REQ_REGISTER_SUCCESS,
     STORE_ACTIVE_ROOMS,
-    CONNECT_SOCKET
+    CONNECT_SOCKET,
+    UPDATE_ACTIVE_ROOMS,
 } from '../actionTypes';
 import { SocketManager } from '../../socket/socketManager';
 
@@ -54,10 +55,9 @@ const initSocket = () => (dispatch, getState) => {
 
     const socketManager = new SocketManager();
     socketManager.connect('http://10.0.2.2:3000');
-    socketManager.socket.emit('get active chats', user.username);
+    socketManager.socket.emit('get active chats', user._id);
     socketManager.socket.on('get active chats', activeChats => {
-        console.log('dapet active chats nya <<<<<<');
-        storeActiveRooms(activeChats);
+        dispatch(storeActiveRooms(activeChats));
     });
     dispatch({ type: CONNECT_SOCKET, socketManager });
 };
@@ -69,9 +69,17 @@ const storeActiveRooms = (activeChats) => dispatch => {
     });
 };
 
+const updateActiveRooms = (activeChat) => dispatch => {
+    dispatch({
+        type: UPDATE_ACTIVE_ROOMS,
+        activeChat,
+    });
+};
+
 export {
     requestRegister,
     requestLogin,
     storeActiveRooms,
+    updateActiveRooms,
     initSocket,
 };
