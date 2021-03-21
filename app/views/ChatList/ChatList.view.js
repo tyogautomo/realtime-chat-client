@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { io } from 'socket.io-client';
+// import { io } from 'socket.io-client';
 import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
 
 import { styles } from './ChatList.style';
@@ -8,7 +8,6 @@ class ChatList extends Component {
   constructor(props) {
     super(props);
     this.scrollViewRef;
-    this.socket = io('http://10.0.2.2:3000');
     this.state = {
       chat: '',
       chats: [],
@@ -16,15 +15,17 @@ class ChatList extends Component {
   }
 
   componentDidMount() {
-    const { user, storeActiveRooms } = this.props;
-    this.socket.emit('get active chats', user.username);
-    this.socket.on('get active chats', rooms => {
-      storeActiveRooms(rooms);
-    });
+    this.connectSocket();
   }
 
-  componentWillUnmount() {
-    this.socket.disconnect();
+  connectSocket = () => {
+    const { initSocket, socketManager } = this.props;
+    if (!socketManager.socket) {
+      console.log('need to connect socket <<<<<<<');
+      initSocket();
+    } else {
+      console.log('no need to connect ~~~~');
+    }
   }
 
   onPressFriendList = () => {
@@ -40,8 +41,8 @@ class ChatList extends Component {
   }
 
   renderChatItem = (chat, i) => {
-    const username = chat?.recipient?.username;
-    const lastMessage = chat?.lastMessage;
+    const username = chat?.recipient?.username || '';
+    const lastMessage = chat?.lastMessage || 'no message';
     return (
       <TouchableOpacity key={i} style={styles.chatCardContainer} activeOpacity={0.6} onPress={this.onPressChat(chat)}>
         <View style={styles.avatar}>
@@ -49,7 +50,7 @@ class ChatList extends Component {
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.username}>{username}</Text>
-          <Text style={styles.previewChat}>{lastMessage || 'no message'}</Text>
+          <Text style={styles.previewChat}>{lastMessage}</Text>
         </View>
       </TouchableOpacity>
     );

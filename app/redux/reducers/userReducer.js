@@ -1,5 +1,3 @@
-import { io } from 'socket.io-client';
-
 import {
     REQ_LOGIN,
     REQ_LOGIN_FAILED,
@@ -7,10 +5,13 @@ import {
     REQ_REGISTER,
     REQ_REGISTER_SUCCESS,
     REQ_REGISTER_FAILED,
-    STORE_ACTIVE_ROOMS
+    STORE_ACTIVE_ROOMS,
+    CONNECT_SOCKET,
 } from '../actionTypes';
+import { SocketManager } from '../../socket/socketManager';
 
 const initialState = {
+    socketManager: new SocketManager(),
     isRequestRegister: false,
     isRequestLogin: false,
     errResponseRegister: null,
@@ -40,12 +41,13 @@ const userReducer = (state = initialState, action) => {
                 isRequestRegister: false,
                 errResponseRegister: action.errResponse,
             };
-        case REQ_LOGIN:
+        case REQ_LOGIN: {
             return {
                 ...state,
                 isRequestLogin: true,
                 errResponseLogin: null,
             };
+        }
         case REQ_LOGIN_SUCCESS:
             return {
                 ...state,
@@ -60,10 +62,16 @@ const userReducer = (state = initialState, action) => {
             };
         case STORE_ACTIVE_ROOMS: {
             const updatedUser = { ...state.user };
-            updatedUser.activeChats = action.rooms;
+            updatedUser.activeChats = action.activeChats;
             return {
                 ...state,
                 user: updatedUser,
+            };
+        }
+        case CONNECT_SOCKET: {
+            return {
+                ...state,
+                socketManager: action.socketManager,
             };
         }
         default:

@@ -7,6 +7,7 @@ import { Login, Chat, Register, ChatList } from '../navigations/views';
 const Stack = createStackNavigator();
 
 class MainNavigator extends Component {
+
   render() {
     const { user } = this.props;
     return (
@@ -36,5 +37,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
 )(MainNavigator);

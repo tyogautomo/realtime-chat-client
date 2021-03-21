@@ -7,7 +7,9 @@ import {
     REQ_REGISTER_FAILED,
     REQ_REGISTER_SUCCESS,
     STORE_ACTIVE_ROOMS,
+    CONNECT_SOCKET
 } from '../actionTypes';
+import { SocketManager } from '../../socket/socketManager';
 
 const requestRegister = (payload) => async (dispatch) => {
     try {
@@ -47,10 +49,22 @@ const requestLogin = (payload) => async (dispatch) => {
     }
 };
 
-const storeActiveRooms = (rooms) => dispatch => {
+const initSocket = () => (dispatch, getState) => {
+    const { userReducer: { user } } = getState();
+
+    const socketManager = new SocketManager();
+    socketManager.connect('http://10.0.2.2:3000');
+    socketManager.socket.emit('get active chats', user.username);
+    socketManager.socket.on('get active chats', activeChats => {
+        storeActiveRooms(activeChats);
+    });
+    dispatch({ type: CONNECT_SOCKET, socketManager });
+};
+
+const storeActiveRooms = (activeChats) => dispatch => {
     dispatch({
         type: STORE_ACTIVE_ROOMS,
-        rooms,
+        activeChats,
     });
 };
 
@@ -58,4 +72,5 @@ export {
     requestRegister,
     requestLogin,
     storeActiveRooms,
+    initSocket,
 };
