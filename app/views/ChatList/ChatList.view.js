@@ -30,15 +30,17 @@ class ChatList extends Component {
 
   onPressChat = (chat) => () => {
     const { navigation, user } = this.props;
+    const recipient = chat?.participants?.filter(userInfo => userInfo.username !== user.username)[0];
     navigation.navigate('Chat', {
       user,
-      recipient: chat.recipient,
+      recipient,
       roomId: chat._id,
     });
   }
 
   renderChatItem = (chat, i) => {
-    const username = chat?.recipient?.username || '';
+    const { user } = this.props;
+    const { username } = chat?.participants?.filter(userInfo => userInfo.username !== user.username)[0];
     const lastMessage = chat?.lastMessage?.message || 'no message';
     return (
       <TouchableOpacity key={i} style={styles.chatCardContainer} activeOpacity={0.6} onPress={this.onPressChat(chat)}>

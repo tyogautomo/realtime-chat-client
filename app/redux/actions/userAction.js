@@ -9,6 +9,8 @@ import {
     STORE_ACTIVE_ROOMS,
     CONNECT_SOCKET,
     UPDATE_ACTIVE_ROOMS,
+    STORE_ROOM_MESSAGES,
+    STORE_NEW_MESSAGE,
 } from '../actionTypes';
 import { SocketManager } from '../../socket/socketManager';
 
@@ -62,6 +64,13 @@ const initSocket = () => (dispatch, getState) => {
         socket.emit('join room', roomIds);
         dispatch(storeActiveRooms(activeChats));
     });
+    socket.on('fetch messages', messages => {
+        dispatch(storeMessages(messages));
+    });
+    socket.on('send message', ({ message, updatedRoom }) => {
+        dispatch(updateActiveRooms(updatedRoom));
+        dispatch(storeNewMessage(message));
+    });
     dispatch({ type: CONNECT_SOCKET, socketManager });
 };
 
@@ -76,6 +85,20 @@ const updateActiveRooms = (activeChat) => dispatch => {
     dispatch({
         type: UPDATE_ACTIVE_ROOMS,
         activeChat,
+    });
+};
+
+const storeMessages = (messages) => dispatch => {
+    dispatch({
+        type: STORE_ROOM_MESSAGES,
+        messages,
+    });
+};
+
+const storeNewMessage = (message) => dispatch => {
+    dispatch({
+        type: STORE_NEW_MESSAGE,
+        message,
     });
 };
 

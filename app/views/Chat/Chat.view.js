@@ -17,22 +17,7 @@ class Chat extends Component {
         setTimeout(() => {
             this.scrollViewRef.scrollToEnd({ animated: false });
         }, 50);
-        this.initSocketListener();
         this.fetchMessages();
-    }
-
-    initSocketListener = () => {
-        const { socketManager, updateActiveRooms } = this.props;
-
-        socketManager.socket.on('fetch messages', messages => {
-            this.setState({ messages });
-        });
-        socketManager.socket.on('send message', ({ message, updatedRoom }) => {
-            updateActiveRooms(updatedRoom);
-            this.setState({ messages: [...this.state.messages, message] }, () => {
-                this.scrollViewRef.scrollToEnd({ animated: true });
-            });
-        });
     }
 
     onSendChat = () => {
@@ -67,14 +52,14 @@ class Chat extends Component {
                 key={i}
                 style={isMine ? styles.chatBox : styles.chatBoxOther}
             >
-                <Text style={styles.username}>{isMine ? 'You' : chat.username}</Text>
+                <Text style={styles.username}>{isMine ? 'You' : chatSenderUsername}</Text>
                 <Text style={isMine ? styles.textChat : styles.textChatOther}>{chat.message}</Text>
             </View>
         );
     }
 
     render() {
-        const { messages } = this.state;
+        const { messages } = this.props;
         return (
             <View style={styles.container}>
                 <ScrollView style={styles.chatListContainer} ref={ref => { this.scrollViewRef = ref; }}>
