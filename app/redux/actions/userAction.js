@@ -1,4 +1,5 @@
 import axios from '../axios';
+import { AppState } from 'react-native';
 import {
     REQ_LOGIN,
     REQ_LOGIN_FAILED,
@@ -63,7 +64,17 @@ const initSocket = () => (dispatch, getState) => {
     const socketManager = new SocketManager();
     socketManager.connect('http://10.0.2.2:3000');
     const socket = socketManager.socket;
+
+    socket.emit('identity', user._id);
     socket.emit('get active chats', user._id);
+    AppState.addEventListener('change', state => {
+        if (state === 'background') {
+            socket.emit('background app', user._id);
+        } else if (state === 'active') {
+            socket.emit('active app', user._id);
+        }
+    });
+
     socket.on('get active chats', activeChats => {
         const roomIds = activeChats.map(room => room._id);
         socket.emit('join room', roomIds);

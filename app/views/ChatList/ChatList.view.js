@@ -41,7 +41,7 @@ class ChatList extends Component {
   renderChatItem = (chat, i) => {
     const { user } = this.props;
     const { username } = chat?.participants?.filter(userInfo => userInfo.username !== user.username)[0];
-    let lastMessage = chat?.lastMessage?.message || 'no message';
+    let lastMessage = chat?.lastMessage?.message || '';
     if (lastMessage.length > 25) {
       lastMessage = `${lastMessage?.slice(0, 25)}...`;
     }
@@ -52,7 +52,7 @@ class ChatList extends Component {
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.username}>{username}</Text>
-          <Text style={styles.previewChat}>{lastMessage}</Text>
+          <Text style={lastMessage ? styles.previewChat : styles.previewNoChat}>{lastMessage || 'no message'}</Text>
         </View>
       </TouchableOpacity>
     );

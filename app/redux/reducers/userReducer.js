@@ -64,7 +64,9 @@ const userReducer = (state = initialState, action) => {
             };
         case STORE_ACTIVE_ROOMS: {
             const updatedUser = { ...state.user };
-            updatedUser.activeChats = action.activeChats;
+            const activeChats = action.activeChats;
+            activeChats.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+            updatedUser.activeChats = activeChats;
             return {
                 ...state,
                 user: updatedUser,
@@ -81,7 +83,7 @@ const userReducer = (state = initialState, action) => {
                     return chat;
                 }
             });
-            user.activeChats = newActiveChats;
+            user.activeChats = newActiveChats.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
             return {
                 ...state,
                 user,

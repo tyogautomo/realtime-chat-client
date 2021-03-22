@@ -61,6 +61,11 @@ const styles = StyleSheet.create({
     color: '#858585',
     fontSize: 15,
   },
+  previewNoChat: {
+    color: '#6e6e6e',
+    fontSize: 15,
+    fontStyle: 'italic',
+  },
   emptyList: {
     marginTop: 80,
     width: '100%',

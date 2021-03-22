@@ -15,7 +15,6 @@ class FriendList extends Component {
   callbackInitiateChat = ({ room, isNewActive }) => {
     const { navigation, initChat, user } = this.props;
     const recipient = room.participants.filter(userInfo => userInfo.username !== user.username)[0];
-    console.log(room.participants, 'recipient <<<<<<<<<<<<<');
     const payload = {
       activeChat: room,
       isNewActive,
