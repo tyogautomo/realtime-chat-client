@@ -19,6 +19,7 @@ const initialState = {
     user: {
         username: '',
         activeChats: [],
+        friends: [],
     },
 };
 

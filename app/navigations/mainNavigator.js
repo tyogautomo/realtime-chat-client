@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 
-import { Login, Chat, Register, ChatList } from '../navigations/views';
+import {
+  Login,
+  Chat,
+  Register,
+  ChatList,
+  FriendList,
+  AddFriend,
+} from '../navigations/views';
 
 const Stack = createStackNavigator();
 
@@ -11,7 +18,7 @@ class MainNavigator extends Component {
   render() {
     const { user } = this.props;
     return (
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ ...TransitionPresets.SlideFromRightIOS }}>
         {user.username ? (
           <>
             <Stack.Screen name="ChatList" component={ChatList} options={{ title: `Hello, ${user.username}` }} />
@@ -20,6 +27,8 @@ class MainNavigator extends Component {
               component={Chat}
               options={({ route }) => ({ title: `${route.params?.recipient?.username}` })}
             />
+            <Stack.Screen name="FriendList" component={FriendList} options={{ title: 'Friends' }} />
+            <Stack.Screen name="AddFriend" component={AddFriend} options={{ title: 'Add Friend' }} />
           </>
         ) : (
           <>
