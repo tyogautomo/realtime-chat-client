@@ -11,6 +11,7 @@ import {
     UPDATE_ACTIVE_ROOMS,
     STORE_ROOM_MESSAGES,
     STORE_NEW_MESSAGE,
+    ADD_ACTIVE_ROOM,
 } from '../actionTypes';
 import { SocketManager } from '../../socket/socketManager';
 
@@ -106,6 +107,15 @@ const storeNewMessage = (message) => dispatch => {
     });
 };
 
+const initChat = ({ activeChat, isNewActive }) => dispatch => {
+    if (isNewActive) {
+        dispatch({
+            type: ADD_ACTIVE_ROOM,
+            activeChat,
+        });
+    }
+};
+
 export {
     requestRegister,
     requestLogin,
@@ -113,4 +123,5 @@ export {
     updateActiveRooms,
     initSocket,
     requestUserFriends,
+    initChat,
 };

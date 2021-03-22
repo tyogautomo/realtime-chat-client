@@ -8,6 +8,7 @@ import {
     STORE_ACTIVE_ROOMS,
     CONNECT_SOCKET,
     UPDATE_ACTIVE_ROOMS,
+    ADD_ACTIVE_ROOM,
 } from '../actionTypes';
 
 const initialState = {
@@ -81,6 +82,14 @@ const userReducer = (state = initialState, action) => {
                 }
             });
             user.activeChats = newActiveChats;
+            return {
+                ...state,
+                user,
+            };
+        }
+        case ADD_ACTIVE_ROOM: {
+            const user = { ...state.user };
+            user.activeChats = [action.activeChat, ...user.activeChats];
             return {
                 ...state,
                 user,

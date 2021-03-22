@@ -4,14 +4,44 @@ import { ScrollView, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import { styles } from './FriendList.style';
 
 class FriendList extends Component {
-  onPressFriend = (friend) => () => {
-    const { navigation, socketManager, user } = this.props;
+  componentDidMount() {
+    this.initSocketListener();
+  }
+
+  componentWillUnmount() {
+    this.removeSocketListener();
+  }
+
+  callbackInitiateChat = ({ room, isNewActive }) => {
+    const { navigation, initChat, user } = this.props;
+    const recipient = room.participants.filter(userInfo => userInfo.username !== user.username)[0];
+    console.log(room.participants, 'recipient <<<<<<<<<<<<<');
+    const payload = {
+      activeChat: room,
+      isNewActive,
+    };
+    initChat(payload);
     navigation.pop();
+    navigation.navigate('Chat', {
+      user,
+      recipient,
+      roomId: room._id,
+    });
+  }
+
+  initSocketListener = () => {
+    const { socketManager } = this.props;
+    socketManager.socket.on('init chat', this.callbackInitiateChat);
+  }
+
+  removeSocketListener = () => {
+    const { socketManager } = this.props;
+    socketManager.socket.off('init chat', this.callbackInitiateChat);
+  }
+
+  onPressFriend = (friend) => () => {
+    const { socketManager, user } = this.props;
     socketManager.socket.emit('init chat', { userId: user._id, friendId: friend._id });
-    // navigation.navigate('Chat', {
-    //   user,
-    //   recipient: friend,
-    // });
   }
 
   renderFriendItem = (friend, i) => {
@@ -36,7 +66,7 @@ class FriendList extends Component {
           <TextInput style={styles.textInput} placeholder="Search Friends..." />
         </View>
         <ScrollView style={styles.listContainer}>
-          {user.friends.map(friend => this.renderFriendItem(friend))}
+          {user.friends.map((friend, i) => this.renderFriendItem(friend, i))}
         </ScrollView>
       </View>
     );
