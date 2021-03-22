@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { connect } from 'react-redux';
 
 import { Register } from './Register.view';

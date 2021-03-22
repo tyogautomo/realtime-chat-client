@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { TextInput, View, Text, Button, TouchableOpacity } from 'react-native';
+import {
+    TextInput,
+    View,
+    Text,
+    Button,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    Keyboard,
+} from 'react-native';
 
 import { styles } from '../Register/Register.style';
 
@@ -24,26 +32,28 @@ function Register({ navigation, requestRegister }) {
     };
 
     return (
-        <View style={styles.containerLogin}>
-            <Text style={styles.title}>Chatz</Text>
-            <Text style={styles.subTitle}>Sign Up an Account</Text>
-            <TextInput
-                style={styles.authInput}
-                placeholder="Username..."
-                onChangeText={(text) => setUsername(text)}
-                value={username}
-            />
-            <TextInput
-                style={styles.authInput}
-                placeholder="Password..."
-                onChangeText={(text) => setPassword(text)}
-                value={password}
-            />
-            <Button title="Register" onPress={onPressRegister} />
-            <TouchableOpacity onPress={onPressSignIn}>
-                <Text style={styles.signupButton}>Already have an Account</Text>
-            </TouchableOpacity>
-        </View>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={styles.containerLogin}>
+                <Text style={styles.title}>Chatz</Text>
+                <Text style={styles.subTitle}>Sign Up an Account</Text>
+                <TextInput
+                    style={styles.authInput}
+                    placeholder="Username..."
+                    onChangeText={(text) => setUsername(text)}
+                    value={username}
+                />
+                <TextInput
+                    style={styles.authInput}
+                    placeholder="Password..."
+                    onChangeText={(text) => setPassword(text)}
+                    value={password}
+                />
+                <Button title="Register" onPress={onPressRegister} />
+                <TouchableOpacity onPress={onPressSignIn}>
+                    <Text style={styles.signupButton}>Already have an Account</Text>
+                </TouchableOpacity>
+            </View>
+        </TouchableWithoutFeedback>
     );
 }
 
