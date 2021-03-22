@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, View, ScrollView, FlatList, Text, TouchableOpacity } from 'react-native';
+import { TextInput, View, FlatList, Text, TouchableOpacity } from 'react-native';
 
 import { styles } from './Chat.style';
 
