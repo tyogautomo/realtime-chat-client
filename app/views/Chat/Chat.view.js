@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { TextInput, View, FlatList, Text, TouchableOpacity } from 'react-native';
+import { TextInput, View, FlatList, Text, TouchableOpacity, ImageBackground } from 'react-native';
 
 import { styles } from './Chat.style';
+import background from '../../assets/wabg.png';
 
 class Chat extends Component {
     constructor(props) {
@@ -56,7 +57,7 @@ class Chat extends Component {
     render() {
         const { messages } = this.props;
         return (
-            <View style={styles.container}>
+            <ImageBackground style={styles.container} source={background}>
                 <FlatList
                     inverted
                     data={messages}
@@ -78,7 +79,7 @@ class Chat extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-            </View>
+            </ImageBackground>
         );
     }
 }

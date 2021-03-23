@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     chatListContainer: {
-        backgroundColor: 'white',
         flex: 1,
         paddingHorizontal: 8,
     },

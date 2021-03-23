@@ -54,10 +54,6 @@ const requestLogin = (payload) => async (dispatch) => {
     }
 };
 
-const requestUserFriends = () => dispatch => {
-
-};
-
 const initSocket = () => (dispatch, getState) => {
     const { userReducer: { user } } = getState();
 
@@ -133,6 +129,5 @@ export {
     storeActiveRooms,
     updateActiveRooms,
     initSocket,
-    requestUserFriends,
     initChat,
 };
