@@ -101,11 +101,9 @@ const initSocket = () => (dispatch, getState) => {
         dispatch(storeActiveRooms(activeChats));
     });
     socket.on('fetch messages', messages => {
-        console.log('received messages from backend <<<<<<<<');
         dispatch(storeMessages(messages));
     });
     socket.on('send message', ({ message, updatedRoom }) => {
-        console.log('i got message <<<<<<<<<<<<<<<<<<<');
         dispatch(updateActiveRooms(updatedRoom));
         dispatch(storeNewMessage(message));
     });
