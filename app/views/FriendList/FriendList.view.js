@@ -12,6 +12,11 @@ class FriendList extends Component {
     this.removeSocketListener();
   }
 
+  onPressAddFriend = () => {
+    const { navigation } = this.props;
+    navigation.navigate('AddFriend');
+  }
+
   callbackInitiateChat = ({ room, isNewActive }) => {
     const { navigation, initChat, user } = this.props;
     const recipient = room.participants.filter(userInfo => userInfo.username !== user.username)[0];
@@ -67,6 +72,9 @@ class FriendList extends Component {
         <ScrollView style={styles.listContainer}>
           {user.friends.map((friend, i) => this.renderFriendItem(friend, i))}
         </ScrollView>
+        <TouchableOpacity style={styles.buttonFriends} activeOpacity={0.8} onPress={this.onPressAddFriend}>
+          <Text style={styles.textButtonFriends}>+</Text>
+        </TouchableOpacity>
       </View>
     );
   }
