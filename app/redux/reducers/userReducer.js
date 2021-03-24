@@ -12,6 +12,7 @@ import {
     REQ_USER_DATA,
     REQ_USER_DATA_SUCCESS,
     REQ_USER_DATA_FAILED,
+    ADD_NEW_FRIEND,
 } from '../actionTypes';
 
 const initialState = {
@@ -143,6 +144,16 @@ const userReducer = (state = initialState, action) => {
         case ADD_ACTIVE_ROOM: {
             const user = { ...state.user };
             user.activeChats = [action.activeChat, ...user.activeChats];
+            return {
+                ...state,
+                user,
+            };
+        }
+        case ADD_NEW_FRIEND: {
+            const user = { ...state.user };
+            const friends = user.friends;
+            friends.push(action.friend);
+            user.friends = sortFriends(friends);
             return {
                 ...state,
                 user,

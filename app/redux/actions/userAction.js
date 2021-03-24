@@ -18,6 +18,7 @@ import {
     REQ_USER_DATA_FAILED,
     SET_CURRENT_ROOM,
     REMOVE_CURRENT_ROOM,
+    ADD_NEW_FRIEND,
 } from '../actionTypes';
 import { SocketManager } from '../../socket/socketManager';
 
@@ -87,6 +88,7 @@ const initSocket = () => (dispatch, getState) => {
     socketManager.connect('http://10.0.2.2:3000');
     const socket = socketManager.socket;
 
+    // initial emitter
     socket.emit('identity', user._id);
     socket.emit('get active chats', user._id);
     AppState.addEventListener('change', state => {
@@ -97,6 +99,7 @@ const initSocket = () => (dispatch, getState) => {
         }
     });
 
+    // listener
     socket.on('get active chats', activeChats => {
         const roomIds = activeChats.map(room => room._id);
         socket.emit('join room', roomIds);
@@ -108,6 +111,9 @@ const initSocket = () => (dispatch, getState) => {
     socket.on('send message', ({ message, updatedRoom }) => {
         dispatch(updateActiveRooms(updatedRoom));
         dispatch(storeNewMessage(message));
+    });
+    socket.on('add friend', (friend) => {
+        dispatch(addNewFriend(friend));
     });
     dispatch({ type: CONNECT_SOCKET, socketManager });
 };
@@ -138,6 +144,13 @@ const storeNewMessage = (message) => (dispatch) => {
     dispatch({
         type: STORE_NEW_MESSAGE,
         message,
+    });
+};
+
+const addNewFriend = (friend) => (dispatch) => {
+    dispatch({
+        type: ADD_NEW_FRIEND,
+        friend,
     });
 };
 
