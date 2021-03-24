@@ -75,15 +75,26 @@ const userReducer = (state = initialState, action) => {
         case UPDATE_ACTIVE_ROOMS: {
             const user = { ...state.user };
             const activeChats = [...user.activeChats];
-            const updatedChat = action.activeChat;
-            const newActiveChats = activeChats.map(chat => {
-                if (chat._id.toString() === updatedChat._id.toString()) {
-                    return updatedChat;
-                } else {
-                    return chat;
+            const newChat = action.activeChat;
+            let isNew = true;
+            for (const [i, chat] of activeChats.entries()) {
+                if (chat._id.toString() === newChat._id.toString()) {
+                    activeChats[i] = newChat;
+                    isNew = false;
+                    break;
                 }
-            });
-            user.activeChats = newActiveChats.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+            }
+            if (isNew) {
+                activeChats.push(newChat);
+            }
+            // const newActiveChats = activeChats.map(chat => {
+            //     if (chat._id.toString() === newChat._id.toString()) {
+            //         return newChat;
+            //     } else {
+            //         return chat;
+            //     }
+            // });
+            user.activeChats = activeChats.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
             return {
                 ...state,
                 user,
