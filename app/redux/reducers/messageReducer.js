@@ -1,7 +1,16 @@
-import { STORE_ROOM_MESSAGES, STORE_NEW_MESSAGE } from '../actionTypes';
+import {
+  STORE_ROOM_MESSAGES,
+  STORE_NEW_MESSAGE,
+  SET_CURRENT_ROOM,
+  REMOVE_CURRENT_ROOM,
+} from '../actionTypes';
 
 const initialState = {
   messages: [],
+  currentRecipient: {
+    _id: null,
+    username: null,
+  },
 };
 
 const messageReducer = (state = initialState, action) => {
@@ -11,10 +20,29 @@ const messageReducer = (state = initialState, action) => {
         ...state,
         messages: action.messages?.reverse(),
       };
-    case STORE_NEW_MESSAGE:
+    case STORE_NEW_MESSAGE: {
+      const currentRecipient = state.currentRecipient.username;
+      const senderUsername = action.message.sender.username;
+      if (currentRecipient === senderUsername) {
+        return {
+          ...state,
+          messages: [action.message, ...state.messages],
+        };
+      }
+      return state;
+    }
+    case SET_CURRENT_ROOM:
       return {
         ...state,
-        messages: [action.message, ...state.messages],
+        currentRecipient: action.currentRecipient,
+      };
+    case REMOVE_CURRENT_ROOM:
+      return {
+        ...state,
+        currentRecipient: {
+          _id: null,
+          username: null,
+        },
       };
     default:
       return state;

@@ -29,6 +29,14 @@ const initialState = {
     },
 };
 
+const sortFriends = (friends) => {
+    friends.sort((a, b) => a.username > b.username ? 1 : -1);
+};
+
+const sortActiveChats = (activeChats) => {
+    activeChats.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+};
+
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
         case REQ_REGISTER:
@@ -55,23 +63,57 @@ const userReducer = (state = initialState, action) => {
                 errResponseLogin: null,
             };
         }
-        case REQ_LOGIN_SUCCESS:
+        case REQ_LOGIN_SUCCESS: {
+            const user = { ...action.data };
+            const friends = user.friends;
+            sortFriends(friends);
+            user.friends = friends;
             return {
                 ...state,
                 isRequestLogin: false,
-                user: action.data,
+                user,
             };
+        }
         case REQ_LOGIN_FAILED:
             return {
                 ...state,
                 isRequestLogin: false,
                 errResponseLogin: action.errResponse,
             };
+        case REQ_USER_DATA:
+            return {
+                ...state,
+                isRequsetUserData: true,
+                errResponseGetUserData: null,
+            };
+        case REQ_USER_DATA_SUCCESS: {
+            const user = { ...action.data };
+            const activeChats = user.activeChats;
+            const friends = user.friends;
+            sortFriends(friends);
+            sortActiveChats(activeChats);
+            user.activeChats = activeChats;
+            user.friends = friends;
+            return {
+                ...state,
+                isRequsetUserData: false,
+                user,
+            };
+        }
+        case REQ_USER_DATA_FAILED:
+            return {
+                ...state,
+                isRequsetUserData: false,
+                errResponseGetUserData: action.errResponse,
+            };
         case STORE_ACTIVE_ROOMS: {
             const updatedUser = { ...state.user };
             const activeChats = action.activeChats;
-            activeChats.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+            const friends = updatedUser.friends;
+            sortFriends(friends);
+            sortActiveChats(activeChats);
             updatedUser.activeChats = activeChats;
+            updatedUser.friends = friends;
             return {
                 ...state,
                 user: updatedUser,
@@ -92,7 +134,7 @@ const userReducer = (state = initialState, action) => {
             if (isNew) {
                 activeChats.push(newChat);
             }
-            user.activeChats = activeChats.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+            user.activeChats = sortActiveChats(activeChats);
             return {
                 ...state,
                 user,
@@ -112,26 +154,6 @@ const userReducer = (state = initialState, action) => {
                 socketManager: action.socketManager,
             };
         }
-        case REQ_USER_DATA:
-            return {
-                ...state,
-                isRequsetUserData: true,
-                errResponseGetUserData: null,
-            };
-        case REQ_USER_DATA_SUCCESS:
-            const user = { ...action.data };
-            user.activeChats = user.activeChats.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-            return {
-                ...state,
-                isRequsetUserData: false,
-                user,
-            };
-        case REQ_USER_DATA_FAILED:
-            return {
-                ...state,
-                isRequsetUserData: false,
-                errResponseGetUserData: action.errResponse,
-            };
         default:
             return state;
     }

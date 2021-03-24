@@ -1,7 +1,11 @@
 import { connect } from 'react-redux';
 
 import { Chat } from './Chat.view';
-import { updateActiveRooms } from '../../redux/actions/userAction';
+import {
+    updateActiveRooms,
+    setCurrentRecipient,
+    removeCurrentRecipient,
+} from '../../redux/actions/userAction';
 
 const mapStateToProps = state => ({
     socketManager: state.userReducer.socketManager,
@@ -11,6 +15,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     updateActiveRooms: (payload) => dispatch(updateActiveRooms(payload)),
+    setCurrentRecipient: (payload) => dispatch(setCurrentRecipient(payload)),
+    removeCurrentRecipient: () => dispatch(removeCurrentRecipient()),
 });
 
 export default connect(

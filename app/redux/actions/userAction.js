@@ -16,6 +16,8 @@ import {
     REQ_USER_DATA,
     REQ_USER_DATA_SUCCESS,
     REQ_USER_DATA_FAILED,
+    SET_CURRENT_ROOM,
+    REMOVE_CURRENT_ROOM,
 } from '../actionTypes';
 import { SocketManager } from '../../socket/socketManager';
 
@@ -110,41 +112,53 @@ const initSocket = () => (dispatch, getState) => {
     dispatch({ type: CONNECT_SOCKET, socketManager });
 };
 
-const storeActiveRooms = (activeChats) => dispatch => {
+// only dispatcher
+const storeActiveRooms = (activeChats) => (dispatch) => {
     dispatch({
         type: STORE_ACTIVE_ROOMS,
         activeChats,
     });
 };
 
-const updateActiveRooms = (activeChat) => dispatch => {
+const updateActiveRooms = (activeChat) => (dispatch) => {
     dispatch({
         type: UPDATE_ACTIVE_ROOMS,
         activeChat,
     });
 };
 
-const storeMessages = (messages) => dispatch => {
+const storeMessages = (messages) => (dispatch) => {
     dispatch({
         type: STORE_ROOM_MESSAGES,
         messages,
     });
 };
 
-const storeNewMessage = (message) => dispatch => {
+const storeNewMessage = (message) => (dispatch) => {
     dispatch({
         type: STORE_NEW_MESSAGE,
         message,
     });
 };
 
-const initChat = ({ activeChat, isNewActive }) => dispatch => {
+const initChat = ({ activeChat, isNewActive }) => (dispatch) => {
     if (isNewActive) {
         dispatch({
             type: ADD_ACTIVE_ROOM,
             activeChat,
         });
     }
+};
+
+const setCurrentRecipient = (currentRecipient) => (dispatch) => {
+    dispatch({
+        type: SET_CURRENT_ROOM,
+        currentRecipient,
+    });
+};
+
+const removeCurrentRecipient = () => (dispatch) => {
+    dispatch({ type: REMOVE_CURRENT_ROOM });
 };
 
 export {
@@ -155,4 +169,6 @@ export {
     initSocket,
     initChat,
     requestUserData,
+    setCurrentRecipient,
+    removeCurrentRecipient,
 };
