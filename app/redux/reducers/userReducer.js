@@ -9,14 +9,19 @@ import {
     CONNECT_SOCKET,
     UPDATE_ACTIVE_ROOMS,
     ADD_ACTIVE_ROOM,
+    REQ_USER_DATA,
+    REQ_USER_DATA_SUCCESS,
+    REQ_USER_DATA_FAILED,
 } from '../actionTypes';
 
 const initialState = {
     socketManager: null,
     isRequestRegister: false,
     isRequestLogin: false,
+    isRequsetUserData: false,
     errResponseRegister: null,
     errResponseLogin: null,
+    errResponseGetUserData: null,
     user: {
         username: '',
         activeChats: [],
@@ -87,13 +92,6 @@ const userReducer = (state = initialState, action) => {
             if (isNew) {
                 activeChats.push(newChat);
             }
-            // const newActiveChats = activeChats.map(chat => {
-            //     if (chat._id.toString() === newChat._id.toString()) {
-            //         return newChat;
-            //     } else {
-            //         return chat;
-            //     }
-            // });
             user.activeChats = activeChats.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
             return {
                 ...state,
@@ -114,6 +112,26 @@ const userReducer = (state = initialState, action) => {
                 socketManager: action.socketManager,
             };
         }
+        case REQ_USER_DATA:
+            return {
+                ...state,
+                isRequsetUserData: true,
+                errResponseGetUserData: null,
+            };
+        case REQ_USER_DATA_SUCCESS:
+            const user = { ...action.data };
+            user.activeChats = user.activeChats.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+            return {
+                ...state,
+                isRequsetUserData: false,
+                user,
+            };
+        case REQ_USER_DATA_FAILED:
+            return {
+                ...state,
+                isRequsetUserData: false,
+                errResponseGetUserData: action.errResponse,
+            };
         default:
             return state;
     }

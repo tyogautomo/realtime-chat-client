@@ -29,6 +29,7 @@ class Chat extends Component {
                 roomId,
                 message: message,
             };
+            console.log('i send message')
             socketManager.socket.emit('send message', payload);
         }
         this.setState({ message: '' });

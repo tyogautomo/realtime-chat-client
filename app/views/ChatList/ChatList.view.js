@@ -10,6 +10,8 @@ class ChatList extends Component {
   }
 
   componentDidMount() {
+    const { requestUserData } = this.props;
+    requestUserData();
     this.connectSocket();
   }
 

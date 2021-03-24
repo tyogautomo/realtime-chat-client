@@ -13,6 +13,9 @@ import {
     STORE_ROOM_MESSAGES,
     STORE_NEW_MESSAGE,
     ADD_ACTIVE_ROOM,
+    REQ_USER_DATA,
+    REQ_USER_DATA_SUCCESS,
+    REQ_USER_DATA_FAILED,
 } from '../actionTypes';
 import { SocketManager } from '../../socket/socketManager';
 
@@ -54,6 +57,27 @@ const requestLogin = (payload) => async (dispatch) => {
     }
 };
 
+const requestUserData = () => async (dispatch, getState) => {
+    try {
+        const { userReducer: { user } } = getState();
+
+        dispatch({ type: REQ_USER_DATA });
+        const response = await axios.get(`/user/${user._id}`);
+        const status = response.status;
+        const data = response.data;
+        if (status === 200) {
+            dispatch({ type: REQ_USER_DATA_SUCCESS, data });
+        } else {
+            dispatch({ type: REQ_USER_DATA_FAILED, errResponse: response });
+        }
+    } catch (error) {
+        dispatch({
+            type: REQ_USER_DATA_FAILED,
+            errResponse: error.message || error,
+        });
+    }
+};
+
 const initSocket = () => (dispatch, getState) => {
     const { userReducer: { user } } = getState();
 
@@ -77,9 +101,11 @@ const initSocket = () => (dispatch, getState) => {
         dispatch(storeActiveRooms(activeChats));
     });
     socket.on('fetch messages', messages => {
+        console.log('received messages from backend <<<<<<<<');
         dispatch(storeMessages(messages));
     });
     socket.on('send message', ({ message, updatedRoom }) => {
+        console.log('i got message <<<<<<<<<<<<<<<<<<<');
         dispatch(updateActiveRooms(updatedRoom));
         dispatch(storeNewMessage(message));
     });
@@ -130,4 +156,5 @@ export {
     updateActiveRooms,
     initSocket,
     initChat,
+    requestUserData,
 };

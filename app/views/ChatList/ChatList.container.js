@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { ChatList } from './ChatList.view';
-import { initSocket } from '../../redux/actions/userAction';
+import { initSocket, requestUserData } from '../../redux/actions/userAction';
 
 const mapStateToProps = state => ({
   user: state.userReducer.user,
@@ -10,6 +10,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   initSocket: () => dispatch(initSocket()),
+  requestUserData: () => dispatch(requestUserData()),
 });
 
 export default connect(
