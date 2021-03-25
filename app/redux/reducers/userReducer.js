@@ -13,6 +13,9 @@ import {
     REQ_USER_DATA_SUCCESS,
     REQ_USER_DATA_FAILED,
     ADD_NEW_FRIEND,
+    REQ_SEARCH_FRIENDS,
+    REQ_SEARCH_FRIENDS_SUCCESS,
+    REQ_SEARCH_FRIENDS_FAILED,
 } from '../actionTypes';
 
 const initialState = {
@@ -20,9 +23,11 @@ const initialState = {
     isRequestRegister: false,
     isRequestLogin: false,
     isRequsetUserData: false,
+    isRequestSearchFriends: false,
     errResponseRegister: null,
     errResponseLogin: null,
     errResponseGetUserData: null,
+    errRequestSearchFriends: null,
     user: {
         username: '',
         activeChats: [],
@@ -121,6 +126,25 @@ const userReducer = (state = initialState, action) => {
                 user: updatedUser,
             };
         }
+        case REQ_SEARCH_FRIENDS:
+            return {
+                ...state,
+                isRequestSearchFriends: true,
+                errRequestSearchFriends: null,
+            };
+        case REQ_SEARCH_FRIENDS_SUCCESS:
+            return {
+                ...state,
+                isRequestSearchFriends: false,
+                friendSearch: action.data,
+            };
+        case REQ_SEARCH_FRIENDS_FAILED:
+            return {
+                ...state,
+                isRequestSearchFriends: false,
+                friendSearch: [],
+                errRequestSearchFriends: action.errResponse,
+            };
         case UPDATE_ACTIVE_ROOMS: {
             const user = { ...state.user };
             const activeChats = [...user.activeChats];

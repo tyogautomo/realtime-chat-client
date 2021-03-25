@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   textInput: {
-    fontSize: 18,
+    fontSize: 16,
   },
   chatCardContainer: {
     width: '100%',

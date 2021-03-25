@@ -19,6 +19,9 @@ import {
     SET_CURRENT_ROOM,
     REMOVE_CURRENT_ROOM,
     ADD_NEW_FRIEND,
+    REQ_SEARCH_FRIENDS,
+    REQ_SEARCH_FRIENDS_SUCCESS,
+    REQ_SEARCH_FRIENDS_FAILED,
 } from '../actionTypes';
 import { SocketManager } from '../../socket/socketManager';
 
@@ -76,6 +79,27 @@ const requestUserData = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: REQ_USER_DATA_FAILED,
+            errResponse: error.message || error,
+        });
+    }
+};
+
+const requestSearchFriends = (search) => async (dispatch, getState) => {
+    try {
+        const { userReducer: { user } } = getState();
+        dispatch({ type: REQ_SEARCH_FRIENDS });
+        const response = await axios.get(`/user/search?q=${search}&userId=${user._id}`);
+        const status = response.status;
+        const data = response.data;
+        console.log(data, 'friends <<<<<<<<<<<<<<');
+        if (status === 200) {
+            dispatch({ type: REQ_SEARCH_FRIENDS_SUCCESS, data });
+        } else {
+            dispatch({ type: REQ_SEARCH_FRIENDS_FAILED, errResponse: response });
+        }
+    } catch (error) {
+        dispatch({
+            type: REQ_SEARCH_FRIENDS_FAILED,
             errResponse: error.message || error,
         });
     }
@@ -184,4 +208,5 @@ export {
     requestUserData,
     setCurrentRecipient,
     removeCurrentRecipient,
+    requestSearchFriends,
 };
