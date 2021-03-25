@@ -22,6 +22,7 @@ import {
     REQ_SEARCH_FRIENDS,
     REQ_SEARCH_FRIENDS_SUCCESS,
     REQ_SEARCH_FRIENDS_FAILED,
+    EMPTY_SEARCH_FRIEND,
 } from '../actionTypes';
 import { SocketManager } from '../../socket/socketManager';
 
@@ -91,7 +92,6 @@ const requestSearchFriends = (search) => async (dispatch, getState) => {
         const response = await axios.get(`/user/search?q=${search}&userId=${user._id}`);
         const status = response.status;
         const data = response.data;
-        console.log(data, 'friends <<<<<<<<<<<<<<');
         if (status === 200) {
             dispatch({ type: REQ_SEARCH_FRIENDS_SUCCESS, data });
         } else {
@@ -103,6 +103,12 @@ const requestSearchFriends = (search) => async (dispatch, getState) => {
             errResponse: error.message || error,
         });
     }
+};
+
+const emptySearchFriend = () => dispatch => {
+    dispatch({
+        type: EMPTY_SEARCH_FRIEND,
+    });
 };
 
 const initSocket = () => (dispatch, getState) => {
@@ -209,4 +215,5 @@ export {
     setCurrentRecipient,
     removeCurrentRecipient,
     requestSearchFriends,
+    emptySearchFriend,
 };

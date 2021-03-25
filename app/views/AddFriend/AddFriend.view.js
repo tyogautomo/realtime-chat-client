@@ -3,6 +3,7 @@ import { ScrollView, Text, TextInput, View, TouchableOpacity } from 'react-nativ
 import { debounce } from 'lodash';
 
 import { styles } from './AddFriend.style';
+import { getRandomColor } from '../../utils/helpers';
 
 class AddFriend extends Component {
   constructor(props) {
@@ -14,6 +15,11 @@ class AddFriend extends Component {
   }
   componentDidMount() {
     this.setHeader();
+  }
+
+  componentWillUnmount() {
+    const { emptySearchFriend } = this.props;
+    emptySearchFriend();
   }
 
   setHeader = () => {
@@ -39,33 +45,37 @@ class AddFriend extends Component {
 
   searchFriend = () => {
     const { search } = this.state;
-    console.log(search);
+    const { requestSearchFriends, emptySearchFriend } = this.props;
+    if (search) {
+      requestSearchFriends(search);
+    } else {
+      emptySearchFriend();
+    }
   }
 
   renderFriendItem = (friend, i) => {
     return (
-      <TouchableOpacity key={i} style={styles.chatCardContainer} activeOpacity={0.6}>
+      <View key={i} style={styles.chatCardContainer}>
         <View style={styles.avatar}>
-          <Text style={styles.initialUsername}>A</Text>
+          <Text style={styles.initialUsername}>{friend?.username[0]?.toUpperCase()}</Text>
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.username}>abalabal</Text>
-          <Text style={styles.previewChat}>im just a noob</Text>
+          <Text style={styles.username}>{friend.username}</Text>
+          <Text style={styles.previewChat}>this is my status</Text>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   }
 
   render() {
-    const list = new Array(0).fill('');
     const { friendSearch } = this.props;
     return (
       <ScrollView style={styles.container}>
-        {list.length !== 0 ? (
-          list.map((el, i) => this.renderFriendItem(el, i))
+        {friendSearch.length !== 0 ? (
+          friendSearch.map((friend, i) => this.renderFriendItem(friend, i))
         ) : (
           <View style={{ alignItems: 'center', paddingVertical: 20, marginTop: 50 }}>
-            <Text style={{ fontSize: 20, color: 'grey' }}>Search with username...</Text>
+            <Text style={{ fontSize: 20, color: 'grey' }}>nothing...</Text>
           </View>
         )}
       </ScrollView>

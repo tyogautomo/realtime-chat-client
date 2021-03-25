@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import { getRandomColor } from '../../utils/helpers';
 
 import { styles } from './ChatList.style';
 
@@ -49,7 +50,7 @@ class ChatList extends Component {
     }
     return (
       <TouchableOpacity key={i} style={styles.chatCardContainer} activeOpacity={0.6} onPress={this.onPressChat(chat)}>
-        <View style={styles.avatar}>
+        <View style={[styles.avatar, {backgroundColor: getRandomColor()}]}>
           <Text style={styles.initialUsername}>{username[0].toUpperCase()}</Text>
         </View>
         <View style={styles.textContainer}>
