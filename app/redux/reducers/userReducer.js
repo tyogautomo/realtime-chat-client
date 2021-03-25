@@ -33,11 +33,11 @@ const initialState = {
 };
 
 const sortFriends = (friends) => {
-    friends.sort((a, b) => a.username > b.username ? 1 : -1);
+    return friends.sort((a, b) => a.username > b.username ? 1 : -1);
 };
 
 const sortActiveChats = (activeChats) => {
-    activeChats.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    return activeChats.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 };
 
 const userReducer = (state = initialState, action) => {

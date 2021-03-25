@@ -7,7 +7,7 @@ import { styles } from './AddFriend.style';
 class AddFriend extends Component {
   constructor(props) {
     super(props);
-    this.debounceSearch = debounce(this.searchFriend, 500);
+    this.debounceSearch = debounce(this.searchFriend, 100);
     this.state = {
       search: '',
     };
@@ -37,9 +37,10 @@ class AddFriend extends Component {
     });
   }
 
-  onPressAdd = (friend) => {
-    const { socketManager, user } = this.props;
+  onPressAdd = (friend) => () => {
+    const { socketManager, user, removeSearchItem } = this.props;
     socketManager.socket.emit('add friend', friend._id, user._id);
+    removeSearchItem(friend._id);
   }
 
   onChangeText = (search) => {
@@ -47,7 +48,7 @@ class AddFriend extends Component {
     this.debounceSearch();
   }
 
-  searchFriend = () => () => {
+  searchFriend = () => {
     const { search } = this.state;
     const { requestSearchFriends, emptySearchFriend } = this.props;
     if (search) {
@@ -67,7 +68,7 @@ class AddFriend extends Component {
           <Text style={styles.username}>{friend.username}</Text>
           <Text style={styles.previewChat}>this is my status</Text>
         </View>
-        <TouchableOpacity style={styles.addButton} onPress={this.onPressAdd(friend)}>
+        <TouchableOpacity style={styles.addButton} onPress={this.onPressAdd(friend)} activeOpacity={0.8}>
           <Text style={styles.addButtonText}>Add</Text>
         </TouchableOpacity>
       </View>

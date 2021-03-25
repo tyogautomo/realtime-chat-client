@@ -23,7 +23,8 @@ const messageReducer = (state = initialState, action) => {
     case STORE_NEW_MESSAGE: {
       const currentRecipient = state.currentRecipient.username;
       const senderUsername = action.message.sender.username;
-      if (currentRecipient === senderUsername) {
+      const currentUsername = action.currentUsername;
+      if ((currentRecipient === senderUsername) || (senderUsername === currentUsername)) {
         return {
           ...state,
           messages: [action.message, ...state.messages],

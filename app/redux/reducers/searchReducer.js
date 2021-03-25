@@ -2,7 +2,8 @@ import {
   REQ_SEARCH_FRIENDS,
   REQ_SEARCH_FRIENDS_SUCCESS,
   REQ_SEARCH_FRIENDS_FAILED,
-  EMPTY_SEARCH_FRIEND
+  EMPTY_SEARCH_FRIEND,
+  REMOVE_SEARCH_ITEM
 } from '../actionTypes';
 
 const initialState = {
@@ -35,6 +36,13 @@ const searchReducer = (state = initialState, action) => {
         ...state,
         friendSearch: [],
       };
+    case REMOVE_SEARCH_ITEM: {
+      const friendSearch = state.friendSearch.filter(user => user._id !== action.friendId);
+      return {
+        ...state,
+        friendSearch,
+      };
+    }
     default:
       return state;
   }

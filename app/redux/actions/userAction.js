@@ -23,6 +23,7 @@ import {
     REQ_SEARCH_FRIENDS_SUCCESS,
     REQ_SEARCH_FRIENDS_FAILED,
     EMPTY_SEARCH_FRIEND,
+    REMOVE_SEARCH_ITEM,
 } from '../actionTypes';
 import { SocketManager } from '../../socket/socketManager';
 
@@ -105,12 +106,6 @@ const requestSearchFriends = (search) => async (dispatch, getState) => {
     }
 };
 
-const emptySearchFriend = () => dispatch => {
-    dispatch({
-        type: EMPTY_SEARCH_FRIEND,
-    });
-};
-
 const initSocket = () => (dispatch, getState) => {
     const { userReducer: { user } } = getState();
 
@@ -140,7 +135,7 @@ const initSocket = () => (dispatch, getState) => {
     });
     socket.on('send message', ({ message, updatedRoom }) => {
         dispatch(updateActiveRooms(updatedRoom));
-        dispatch(storeNewMessage(message));
+        dispatch(storeNewMessage(message, user.username));
     });
     socket.on('add friend', (friend) => {
         dispatch(addNewFriend(friend));
@@ -170,10 +165,11 @@ const storeMessages = (messages) => (dispatch) => {
     });
 };
 
-const storeNewMessage = (message) => (dispatch) => {
+const storeNewMessage = (message, currentUsername) => (dispatch) => {
     dispatch({
         type: STORE_NEW_MESSAGE,
         message,
+        currentUsername,
     });
 };
 
@@ -181,6 +177,19 @@ const addNewFriend = (friend) => (dispatch) => {
     dispatch({
         type: ADD_NEW_FRIEND,
         friend,
+    });
+};
+
+const emptySearchFriend = () => (dispatch) => {
+    dispatch({
+        type: EMPTY_SEARCH_FRIEND,
+    });
+};
+
+const removeSearchItem = (friendId) => (dispatch) => {
+    dispatch({
+        type: REMOVE_SEARCH_ITEM,
+        friendId,
     });
 };
 
@@ -216,4 +225,5 @@ export {
     removeCurrentRecipient,
     requestSearchFriends,
     emptySearchFriend,
+    removeSearchItem,
 };

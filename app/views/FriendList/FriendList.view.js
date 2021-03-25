@@ -71,7 +71,7 @@ class FriendList extends Component {
           <TextInput style={styles.textInput} placeholder="Search Friends..." />
         </View>
         <ScrollView style={styles.listContainer}>
-          {user.friends.map((friend, i) => this.renderFriendItem(friend, i))}
+          {user?.friends?.map((friend, i) => this.renderFriendItem(friend, i))}
         </ScrollView>
         <TouchableOpacity style={styles.buttonFriends} activeOpacity={0.8} onPress={this.onPressAddFriend}>
           <Text style={styles.textButtonFriends}>+</Text>
