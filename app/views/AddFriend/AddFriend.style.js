@@ -46,6 +46,15 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontStyle: 'italic',
   },
+  emptyContainer: {
+    alignItems: 'center',
+    paddingVertical: 20,
+    marginTop: 50,
+  },
+  emptyText: {
+    fontSize: 20,
+    color: 'grey',
+  },
 });
 
 export { styles };

@@ -74,8 +74,8 @@ class AddFriend extends Component {
         {friendSearch.length !== 0 ? (
           friendSearch.map((friend, i) => this.renderFriendItem(friend, i))
         ) : (
-          <View style={{ alignItems: 'center', paddingVertical: 20, marginTop: 50 }}>
-            <Text style={{ fontSize: 20, color: 'grey' }}>nothing...</Text>
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>nothing...</Text>
           </View>
         )}
       </ScrollView>
