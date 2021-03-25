@@ -28,6 +28,7 @@ const initialState = {
         activeChats: [],
         friends: [],
     },
+    friendSearch: [],
 };
 
 const sortFriends = (friends) => {
