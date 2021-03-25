@@ -3,7 +3,6 @@ import { ScrollView, Text, TextInput, View, TouchableOpacity } from 'react-nativ
 import { debounce } from 'lodash';
 
 import { styles } from './AddFriend.style';
-import { getRandomColor } from '../../utils/helpers';
 
 class AddFriend extends Component {
   constructor(props) {
@@ -38,12 +37,17 @@ class AddFriend extends Component {
     });
   }
 
+  onPressAdd = (friend) => {
+    const { socketManager, user } = this.props;
+    socketManager.socket.emit('add friend', friend._id, user._id);
+  }
+
   onChangeText = (search) => {
     this.setState({ search });
     this.debounceSearch();
   }
 
-  searchFriend = () => {
+  searchFriend = () => () => {
     const { search } = this.state;
     const { requestSearchFriends, emptySearchFriend } = this.props;
     if (search) {
@@ -63,6 +67,9 @@ class AddFriend extends Component {
           <Text style={styles.username}>{friend.username}</Text>
           <Text style={styles.previewChat}>this is my status</Text>
         </View>
+        <TouchableOpacity style={styles.addButton} onPress={this.onPressAdd(friend)}>
+          <Text style={styles.addButtonText}>Add</Text>
+        </TouchableOpacity>
       </View>
     );
   }

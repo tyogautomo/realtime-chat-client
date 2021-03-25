@@ -55,6 +55,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'grey',
   },
+  addButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    backgroundColor: '#0E7BF7',
+    borderRadius: 4,
+  },
+  addButtonText: {
+    color: 'white',
+  },
 });
 
 export { styles };
