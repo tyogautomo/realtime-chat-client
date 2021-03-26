@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
-import { getRandomColor } from '../../utils/helpers';
 
 import { styles } from './ChatList.style';
 
@@ -43,14 +42,14 @@ class ChatList extends Component {
 
   renderChatItem = (chat, i) => {
     const { user } = this.props;
-    const { username } = chat?.participants?.filter(userInfo => userInfo.username !== user.username)[0];
+    const { username, backgroundColor } = chat?.participants?.filter(userInfo => userInfo.username !== user.username)[0];
     let lastMessage = chat?.lastMessage?.message || '';
     if (lastMessage.length > 25) {
       lastMessage = `${lastMessage?.slice(0, 25)}...`;
     }
     return (
       <TouchableOpacity key={i} style={styles.chatCardContainer} activeOpacity={0.6} onPress={this.onPressChat(chat)}>
-        <View style={[styles.avatar, {backgroundColor: getRandomColor()}]}>
+        <View style={[styles.avatar, { backgroundColor: `rgb(${backgroundColor})` }]}>
           <Text style={styles.initialUsername}>{username[0].toUpperCase()}</Text>
         </View>
         <View style={styles.textContainer}>

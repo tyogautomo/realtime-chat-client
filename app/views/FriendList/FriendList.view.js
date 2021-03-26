@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { ScrollView, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
 import { styles } from './FriendList.style';
-import { getRandomColor } from '../../utils/helpers';
 
 class FriendList extends Component {
   componentDidMount() {
@@ -52,7 +51,7 @@ class FriendList extends Component {
   renderFriendItem = (friend, i) => {
     return (
       <TouchableOpacity key={i} style={styles.chatCardContainer} activeOpacity={0.6} onPress={this.onPressFriend(friend)}>
-        <View style={[styles.avatar, {backgroundColor: getRandomColor()}]}>
+        <View style={[styles.avatar, {backgroundColor: `rgb(${friend.backgroundColor})`}]}>
           <Text style={styles.initialUsername}>{friend?.username[0]?.toUpperCase()}</Text>
         </View>
         <View style={styles.textContainer}>
