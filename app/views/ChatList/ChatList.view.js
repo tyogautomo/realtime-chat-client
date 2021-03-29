@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
 import { styles } from './ChatList.style';
 
@@ -44,8 +45,10 @@ class ChatList extends Component {
     const { user } = this.props;
     const { username, backgroundColor } = chat?.participants?.filter(userInfo => userInfo.username !== user.username)[0];
     let lastMessage = chat?.lastMessage?.message || '';
-    if (lastMessage.length > 25) {
-      lastMessage = `${lastMessage?.slice(0, 25)}...`;
+    const sender = chat?.lastMessage?.sender;
+    const senderIsMine = sender?.username === user.username;
+    if (lastMessage.length > 20) {
+      lastMessage = `${lastMessage?.slice(0, senderIsMine ? 20 : 25)}...`;
     }
     return (
       <TouchableOpacity key={i} style={styles.chatCardContainer} activeOpacity={0.6} onPress={this.onPressChat(chat)}>
@@ -54,7 +57,10 @@ class ChatList extends Component {
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.username}>{username}</Text>
-          <Text style={lastMessage ? styles.previewChat : styles.previewNoChat}>{lastMessage || 'no message'}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {senderIsMine && <IonIcon name="checkmark-done" size={20} color="grey" style={{ marginRight: 5 }} />}
+            <Text style={lastMessage ? styles.previewChat : styles.previewNoChat}>{lastMessage || 'no message'}</Text>
+          </View>
         </View>
       </TouchableOpacity>
     );
