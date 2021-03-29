@@ -3,10 +3,10 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#202728',
+    backgroundColor: '#15212A',
   },
   buttonFriends: {
-    backgroundColor: 'skyblue',
+    backgroundColor: '#0AA49D',
     width: 60,
     height: 60,
     borderRadius: 30,
@@ -59,6 +59,12 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     fontWeight: 'bold',
   },
+  notifContainer: {
+    paddingVertical: 17,
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    alignSelf: 'stretch',
+  },
   messageContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -75,16 +81,20 @@ const styles = StyleSheet.create({
   receiptLogo: {
     marginRight: 5,
   },
+  date: {
+    color: '#858585',
+  },
   unreadCountContainer: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: '#20B174',
+    width: 23,
+    height: 23,
+    borderRadius: 20,
+    backgroundColor: '#0AA49D',
     justifyContent: 'center',
     alignItems: 'center',
   },
   unreadText: {
-    color: 'white',
+    color: '#15212A',
+    fontSize: 12,
   },
   emptyList: {
     marginTop: 80,

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import moment from 'moment';
 
 import { styles } from './ChatList.style';
+import { formatTime } from '../../utils/helpers';
 
 class ChatList extends Component {
   constructor(props) {
@@ -65,13 +67,16 @@ class ChatList extends Component {
               <Text style={lastMessage ? styles.previewChat : styles.previewNoChat}>{lastMessage || 'no message'}</Text>
             </View>
           </View>
-          {unreadMessages.length !== 0 && (
+          <View style={styles.notifContainer}>
             <View>
+              <Text style={styles.date}>{formatTime(chat?.updatedAt)}</Text>
+            </View>
+            {unreadMessages.length !== 0 ? (
               <View style={styles.unreadCountContainer}>
                 <Text style={styles.unreadText}>{unreadMessages.length}</Text>
               </View>
-            </View>
-          )}
+            ) : null}
+          </View>
         </View>
       </TouchableOpacity>
     );
