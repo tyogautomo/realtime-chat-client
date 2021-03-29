@@ -1,4 +1,5 @@
 import thunk from 'redux-thunk';
+import logger from 'redux-logger';
 import JSOG from 'jsog';
 import { persistStore, persistReducer, createTransform } from 'redux-persist';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -22,7 +23,7 @@ const persistedReducer = persistReducer(persistConfig, appReducers);
 
 const store = createStore(
     persistedReducer,
-    compose(applyMiddleware(thunk))
+    compose(applyMiddleware([thunk, logger]))
 );
 const persistor = persistStore(store);
 

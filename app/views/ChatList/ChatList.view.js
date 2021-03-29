@@ -45,6 +45,7 @@ class ChatList extends Component {
     const { user } = this.props;
     const { username, backgroundColor } = chat?.participants?.filter(userInfo => userInfo.username !== user.username)[0];
     let lastMessage = chat?.lastMessage?.message || '';
+    const isRead = chat?.lastMessage?.read;
     const sender = chat?.lastMessage?.sender;
     const senderIsMine = sender?.username === user.username;
     if (lastMessage.length > 20) {
@@ -58,7 +59,7 @@ class ChatList extends Component {
         <View style={styles.textContainer}>
           <Text style={styles.username}>{username}</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            {senderIsMine && <IonIcon name="checkmark-done" size={20} color="grey" style={{ marginRight: 5 }} />}
+            {senderIsMine && <IonIcon name="checkmark-done" size={20} color={isRead ? '#46b2d4' : 'grey'} style={{ marginRight: 5 }} />}
             <Text style={lastMessage ? styles.previewChat : styles.previewNoChat}>{lastMessage || 'no message'}</Text>
           </View>
         </View>

@@ -11,6 +11,7 @@ const initialState = {
     _id: null,
     username: null,
   },
+  currentRoomId: null,
 };
 
 const messageReducer = (state = initialState, action) => {
@@ -36,6 +37,7 @@ const messageReducer = (state = initialState, action) => {
       return {
         ...state,
         currentRecipient: action.currentRecipient,
+        currentRoomId: action.currentRoomId?.toString(),
       };
     case REMOVE_CURRENT_ROOM:
       return {
@@ -44,6 +46,7 @@ const messageReducer = (state = initialState, action) => {
           _id: null,
           username: null,
         },
+        currentRoomId: null,
       };
     default:
       return state;

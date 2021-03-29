@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { TextInput, View, FlatList, Text, TouchableOpacity, ImageBackground } from 'react-native';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
 import { styles } from './Chat.style';
 import background from '../../assets/wabg.png';
@@ -15,8 +16,8 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    this.setRecipient();
-    this.fetchMessages();
+    this.onSetRecipientAndRoom();
+    this.onFetchAndReadMessages();
   }
 
   componentWillUnmount() {
@@ -40,15 +41,17 @@ class Chat extends Component {
     this.setState({ message: '' });
   };
 
-  setRecipient = () => {
+  onSetRecipientAndRoom = () => {
     const { setCurrentRecipient, route } = this.props;
-    const { recipient } = route?.params;
-    setCurrentRecipient(recipient);
+    const { recipient, roomId } = route?.params;
+    const payload = { recipient, roomId };
+    setCurrentRecipient(payload);
   }
 
-  fetchMessages = () => {
-    const { socketManager, route } = this.props;
+  onFetchAndReadMessages = () => {
+    const { socketManager, route, user } = this.props;
     const { roomId } = route?.params;
+    socketManager.socket.emit('read messages', roomId, user._id);
     socketManager.socket.emit('fetch messages', roomId);
   }
 
@@ -57,11 +60,15 @@ class Chat extends Component {
     const { route } = this.props;
     const { username: currentUsername } = route?.params?.user;
     const { username: chatSenderUsername } = chat?.sender;
+    const isRead = chat?.read;
     const isMine = currentUsername === chatSenderUsername;
     return (
       <View style={isMine ? styles.chatBox : styles.chatBoxOther}>
         <Text style={styles.username}>{isMine ? 'You' : chatSenderUsername}</Text>
-        <Text style={isMine ? styles.textChat : styles.textChatOther}>{chat.message}</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={styles.textChat}>{chat.message}</Text>
+          {isMine && <IonIcon name="checkmark-done" size={20} color={isRead ? '#46b2d4' : 'grey'} style={{ marginLeft: 10 }} />}
+        </View>
       </View>
     );
   }

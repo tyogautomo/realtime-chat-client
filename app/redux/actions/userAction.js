@@ -107,7 +107,10 @@ const requestSearchFriends = (search) => async (dispatch, getState) => {
 };
 
 const initSocket = () => (dispatch, getState) => {
-    const { userReducer: { user } } = getState();
+    const {
+        userReducer: { user },
+        messageReducer: { currentRoomId },
+    } = getState();
 
     const socketManager = new SocketManager();
     socketManager.connect('http://10.0.2.2:3000');
@@ -139,6 +142,15 @@ const initSocket = () => (dispatch, getState) => {
     });
     socket.on('add friend', (friend) => {
         dispatch(addNewFriend(friend));
+    });
+    socket.on('read messages', ({ updatedMessages, updatedRoom }) => {
+        console.log(updatedRoom?._id?.toString(), 'updatedRoom id <<<<<<<<<<<');
+        console.log(currentRoomId, 'currentRoom id <<<<<<<<<<<');
+        console.log(updatedRoom?._id?.toString() === currentRoomId, 'check ? ><<<<<<<<<<<<<<');
+        if (updatedRoom?._id?.toString() === currentRoomId) {
+            dispatch(storeMessages(updatedMessages));
+        }
+        dispatch(updateActiveRooms(updatedRoom));
     });
     dispatch({ type: CONNECT_SOCKET, socketManager });
 };
@@ -202,10 +214,11 @@ const initChat = ({ activeChat, isNewActive }) => (dispatch) => {
     }
 };
 
-const setCurrentRecipient = (currentRecipient) => (dispatch) => {
+const setCurrentRecipient = ({ recipient, roomId }) => (dispatch) => {
     dispatch({
         type: SET_CURRENT_ROOM,
-        currentRecipient,
+        currentRecipient: recipient,
+        currentRoomId: roomId,
     });
 };
 
