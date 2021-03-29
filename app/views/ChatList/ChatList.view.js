@@ -47,6 +47,7 @@ class ChatList extends Component {
     let lastMessage = chat?.lastMessage?.message || '';
     const isRead = chat?.lastMessage?.read;
     const sender = chat?.lastMessage?.sender;
+    const unreadMessages = chat?.unreadMessages?.filter(msg => msg.recipient.username === user.username);
     const senderIsMine = sender?.username === user.username;
     if (lastMessage.length > 20) {
       lastMessage = `${lastMessage?.slice(0, senderIsMine ? 20 : 25)}...`;
@@ -57,11 +58,20 @@ class ChatList extends Component {
           <Text style={styles.initialUsername}>{username[0].toUpperCase()}</Text>
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.username}>{username}</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            {senderIsMine && <IonIcon name="checkmark-done" size={20} color={isRead ? '#46b2d4' : 'grey'} style={{ marginRight: 5 }} />}
-            <Text style={lastMessage ? styles.previewChat : styles.previewNoChat}>{lastMessage || 'no message'}</Text>
+          <View>
+            <Text style={styles.username}>{username}</Text>
+            <View style={styles.messageContainer}>
+              {senderIsMine && <IonIcon name="checkmark-done" size={20} color={isRead ? '#46b2d4' : 'grey'} style={styles.receiptLogo} />}
+              <Text style={lastMessage ? styles.previewChat : styles.previewNoChat}>{lastMessage || 'no message'}</Text>
+            </View>
           </View>
+          {unreadMessages.length !== 0 && (
+            <View>
+              <View style={styles.unreadCountContainer}>
+                <Text style={styles.unreadText}>{unreadMessages.length}</Text>
+              </View>
+            </View>
+          )}
         </View>
       </TouchableOpacity>
     );

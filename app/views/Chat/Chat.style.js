@@ -57,9 +57,18 @@ const styles = StyleSheet.create({
         maxWidth: '80%',
         elevation: 3,
     },
+    messageContainer: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+    },
     textChat: {
         fontSize: 16,
         color: 'white',
+        textAlign: 'justify',
+        maxWidth: 249,
+    },
+    receiptLogo: {
+        marginLeft: 10,
     },
     username: {
         fontWeight: 'bold',

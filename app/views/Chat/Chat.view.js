@@ -65,9 +65,9 @@ class Chat extends Component {
     return (
       <View style={isMine ? styles.chatBox : styles.chatBoxOther}>
         <Text style={styles.username}>{isMine ? 'You' : chatSenderUsername}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={styles.messageContainer}>
           <Text style={styles.textChat}>{chat.message}</Text>
-          {isMine && <IonIcon name="checkmark-done" size={20} color={isRead ? '#46b2d4' : 'grey'} style={{ marginLeft: 10 }} />}
+          {isMine && <IonIcon name="checkmark-done" size={20} color={isRead ? '#46b2d4' : 'grey'} style={styles.receiptLogo} />}
         </View>
       </View>
     );

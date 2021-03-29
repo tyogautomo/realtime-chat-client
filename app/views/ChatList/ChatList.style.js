@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#363636',
+    backgroundColor: '#202728',
   },
   buttonFriends: {
     backgroundColor: 'skyblue',
@@ -46,7 +46,9 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     alignSelf: 'stretch',
     borderBottomWidth: 0.5,
     borderBottomColor: '#858585',
@@ -57,6 +59,10 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     fontWeight: 'bold',
   },
+  messageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   previewChat: {
     color: '#858585',
     fontSize: 15,
@@ -65,6 +71,20 @@ const styles = StyleSheet.create({
     color: '#6e6e6e',
     fontSize: 15,
     fontStyle: 'italic',
+  },
+  receiptLogo: {
+    marginRight: 5,
+  },
+  unreadCountContainer: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: '#20B174',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  unreadText: {
+    color: 'white',
   },
   emptyList: {
     marginTop: 80,

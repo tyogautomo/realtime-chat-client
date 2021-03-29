@@ -107,10 +107,7 @@ const requestSearchFriends = (search) => async (dispatch, getState) => {
 };
 
 const initSocket = () => (dispatch, getState) => {
-    const {
-        userReducer: { user },
-        messageReducer: { currentRoomId },
-    } = getState();
+    const { userReducer: { user } } = getState();
 
     const socketManager = new SocketManager();
     socketManager.connect('http://10.0.2.2:3000');
@@ -144,9 +141,7 @@ const initSocket = () => (dispatch, getState) => {
         dispatch(addNewFriend(friend));
     });
     socket.on('read messages', ({ updatedMessages, updatedRoom }) => {
-        console.log(updatedRoom?._id?.toString(), 'updatedRoom id <<<<<<<<<<<');
-        console.log(currentRoomId, 'currentRoom id <<<<<<<<<<<');
-        console.log(updatedRoom?._id?.toString() === currentRoomId, 'check ? ><<<<<<<<<<<<<<');
+        const { messageReducer: { currentRoomId } } = getState();
         if (updatedRoom?._id?.toString() === currentRoomId) {
             dispatch(storeMessages(updatedMessages));
         }
