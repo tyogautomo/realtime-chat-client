@@ -13,35 +13,52 @@ class Chat extends Component {
     this.scrollViewRef;
     this.state = {
       message: '',
-      messages: [],
       isOnline: false,
+      isTyping: false,
     };
-    this.debounceNotifyTyping = debounce(this.notifyTyping, 500);
+    this.debounceNotifyTyping = debounce(this.notifyTyping, 200);
   }
 
   componentDidMount() {
     this.onSetRecipientAndRoom();
     this.onFetchAndReadMessages();
-    this.onGetOnlineInfo();
+    this.initSocketListener();
   }
 
   componentWillUnmount() {
-    const { removeCurrentRecipient } = this.props;
+    const { removeCurrentRecipient, socketManager, route } = this.props;
+    const { roomId } = route?.params;
+
+    socketManager.socket.emit('notify typing', false, roomId);
     removeCurrentRecipient();
     this.onRemoveListener();
+  }
+
+  initSocketListener = () => {
+    const { socketManager, route } = this.props;
+    const { recipient } = route?.params;
+
+    socketManager.socket.emit('get online info', recipient._id);
+
+    socketManager.socket.on('get online info', this.onReceiveOnlineInfo);
+    socketManager.socket.on('notify typing', this.onReceiveTypingNotif);
+  }
+
+  notifyTyping = () => {
+    const { socketManager, route } = this.props;
+    const { roomId } = route?.params;
+    const { message } = this.state;
+    if (message) {
+      socketManager.socket.emit('notify typing', true, roomId);
+    } else {
+      socketManager.socket.emit('notify typing', false, roomId);
+    }
   }
 
   onRemoveListener = () => {
     const { socketManager } = this.props;
     socketManager.socket.off('get online info', this.onReceiveOnlineInfo);
-  }
-
-  onGetOnlineInfo = () => {
-    const { socketManager, route } = this.props;
-    const { recipient } = route?.params;
-
-    socketManager.socket.emit('get online info', recipient._id);
-    socketManager.socket.on('get online info', this.onReceiveOnlineInfo);
+    socketManager.socket.off('notify typing', this.onReceiveTypingNotif);
   }
 
   onReceiveOnlineInfo = ({ isOnline, recipientId }) => {
@@ -49,6 +66,10 @@ class Chat extends Component {
     if (currentRecipient._id.toString() === recipientId.toString()) {
       this.setState({ isOnline });
     }
+  }
+
+  onReceiveTypingNotif = (isTyping) => {
+    this.setState({ isTyping });
   }
 
   onSendChat = () => {
@@ -65,6 +86,7 @@ class Chat extends Component {
       socketManager.socket.emit('send message', payload);
     }
     this.setState({ message: '' });
+    socketManager.socket.emit('notify typing', false, roomId);
   };
 
   onSetRecipientAndRoom = () => {
@@ -88,16 +110,13 @@ class Chat extends Component {
 
   onChangeText = (message) => {
     this.setState({ message });
-  }
-
-  notifyTyping = () => {
-    const { socketManager } = this.props;
+    this.debounceNotifyTyping();
   }
 
   renderHeader = () => {
     const { route } = this.props;
     const { recipient } = route?.params;
-    const { isOnline } = this.state;
+    const { isOnline, isTyping } = this.state;
     return (
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={this.onPressBack} activeOpacity={0.6}>
@@ -108,7 +127,10 @@ class Chat extends Component {
         </View>
         <View style={styles.usernameContainer}>
           <Text style={styles.headerTitle}>{recipient.username}</Text>
-          {isOnline && <Text style={styles.subTitle}>online</Text>}
+          {
+            isTyping ? (<Text style={styles.subTitle}>is typing...</Text>) :
+              isOnline ? (<Text style={styles.subTitle}>online</Text>) : null
+          }
         </View>
       </View>
     );
