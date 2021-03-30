@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { TextInput, View, FlatList, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import EntIcon from 'react-native-vector-icons/Entypo';
+import { debounce } from 'lodash';
 
 import { styles } from './Chat.style';
 import background from '../../assets/wabg.png';
@@ -12,44 +14,41 @@ class Chat extends Component {
     this.state = {
       message: '',
       messages: [],
+      isOnline: false,
     };
+    this.debounceNotifyTyping = debounce(this.notifyTyping, 500);
   }
 
   componentDidMount() {
     this.onSetRecipientAndRoom();
     this.onFetchAndReadMessages();
-    this.setHeader();
+    this.onGetOnlineInfo();
   }
 
   componentWillUnmount() {
     const { removeCurrentRecipient } = this.props;
     removeCurrentRecipient();
+    this.onRemoveListener();
   }
 
-  setHeader = () => {
-    const { navigation, route } = this.props;
+  onRemoveListener = () => {
+    const { socketManager } = this.props;
+    socketManager.socket.off('get online info', this.onReceiveOnlineInfo);
+  }
+
+  onGetOnlineInfo = () => {
+    const { socketManager, route } = this.props;
     const { recipient } = route?.params;
-    navigation.setOptions({
-      headerTitle: props => {
-        return (
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={[styles.avatar, { backgroundColor: `rgb(${recipient.backgroundColor})` }]}>
-              <Text style={styles.avatarText}>{recipient.username[0].toUpperCase()}</Text>
-            </View>
-            <View style={styles.usernameContainer}>
-              <Text style={styles.headerTitle}>{recipient.username}</Text>
-              <Text style={{color: '#c2c2c2'}}>is typing...</Text>
-            </View>
-          </View>
-        );
-      },
-      headerStyle: {
-        backgroundColor: '#232D36',
-        elevation: 0,
-        height: 60,
-      },
-      headerTintColor: 'white',
-    });
+
+    socketManager.socket.emit('get online info', recipient._id);
+    socketManager.socket.on('get online info', this.onReceiveOnlineInfo);
+  }
+
+  onReceiveOnlineInfo = ({ isOnline, recipientId }) => {
+    const { currentRecipient } = this.props;
+    if (currentRecipient._id.toString() === recipientId.toString()) {
+      this.setState({ isOnline });
+    }
   }
 
   onSendChat = () => {
@@ -82,6 +81,39 @@ class Chat extends Component {
     socketManager.socket.emit('fetch messages', roomId);
   }
 
+  onPressBack = () => {
+    const { navigation } = this.props;
+    navigation.goBack();
+  }
+
+  onChangeText = (message) => {
+    this.setState({ message });
+  }
+
+  notifyTyping = () => {
+    const { socketManager } = this.props;
+  }
+
+  renderHeader = () => {
+    const { route } = this.props;
+    const { recipient } = route?.params;
+    const { isOnline } = this.state;
+    return (
+      <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={this.onPressBack} activeOpacity={0.6}>
+          <EntIcon name="chevron-thin-left" color="#c2c2c2" size={25} />
+        </TouchableOpacity>
+        <View style={[styles.avatar, { backgroundColor: `rgb(${recipient.backgroundColor})` }]}>
+          <Text style={styles.avatarText}>{recipient.username[0].toUpperCase()}</Text>
+        </View>
+        <View style={styles.usernameContainer}>
+          <Text style={styles.headerTitle}>{recipient.username}</Text>
+          {isOnline && <Text style={styles.subTitle}>online</Text>}
+        </View>
+      </View>
+    );
+  }
+
   renderChatItem = ({ item }) => {
     const chat = item;
     const { route } = this.props;
@@ -104,6 +136,7 @@ class Chat extends Component {
     const { messages } = this.props;
     return (
       <ImageBackground style={styles.container} source={background}>
+        {this.renderHeader()}
         <FlatList
           inverted
           data={messages}
@@ -117,7 +150,7 @@ class Chat extends Component {
               style={styles.textInput}
               placeholder="Type message..."
               placeholderTextColor="grey"
-              onChangeText={(message) => this.setState({ message })}
+              onChangeText={this.onChangeText}
               value={this.state.message}
               multiline={true}
             />

@@ -116,6 +116,7 @@ const initSocket = () => (dispatch, getState) => {
     // initial emitter
     socket.emit('identity', user._id);
     socket.emit('get active chats', user._id);
+    socket.emit('notify online', user._id);
     AppState.addEventListener('change', state => {
         if (state === 'background') {
             socket.emit('background app', user._id);

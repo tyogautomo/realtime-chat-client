@@ -1,27 +1,39 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+    headerContainer: {
+        elevation: 4,
+        paddingHorizontal: 10,
+        height: 70,
+        backgroundColor: '#232D36',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    usernameContainer: {
+        alignSelf: 'stretch',
+        justifyContent: 'center',
+    },
     headerTitle: {
         fontSize: 20,
         fontWeight: 'bold',
         color: '#c2c2c2',
     },
+    subTitle: {
+        color: '#c2c2c2',
+    },
     avatar: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
+        width: 45,
+        height: 45,
+        borderRadius: 30,
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 15,
+        marginLeft: 10,
     },
     avatarText: {
         color: 'white',
         fontSize: 18,
         fontWeight: 'bold',
-    },
-    usernameContainer: {
-        alignSelf: 'stretch',
-        justifyContent: 'space-between',
     },
     container: {
         flex: 1,
@@ -32,7 +44,6 @@ const styles = StyleSheet.create({
     },
     inputBoxContainer: {
         width: '100%',
-        // backgroundColor: '#1c1c1c',
         paddingVertical: 7,
         paddingHorizontal: 10,
     },

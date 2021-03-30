@@ -11,6 +11,7 @@ const mapStateToProps = state => ({
     socketManager: state.userReducer.socketManager,
     user: state.userReducer.user,
     messages: state.messageReducer.messages,
+    currentRecipient: state.messageReducer.currentRecipient,
 });
 
 const mapDispatchToProps = dispatch => ({

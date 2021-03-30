@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, View, TouchableOpacity, StatusBar } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 
 import { styles } from './ChatList.style';
@@ -100,6 +100,7 @@ class ChatList extends Component {
     const { user: { activeChats } } = this.props;
     return (
       <View style={styles.container}>
+        <StatusBar backgroundColor="#15212A" />
         <ScrollView style={styles.friendListContainer}>
           {
             activeChats.length === 0 ? (
