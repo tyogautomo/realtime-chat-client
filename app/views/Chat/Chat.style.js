@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         flex: 1,
         maxHeight: 90,
         color: 'white',
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
     },
     sendButton: {
         backgroundColor: '#0AA49D',

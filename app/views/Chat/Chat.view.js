@@ -117,13 +117,14 @@ class Chat extends Component {
     const { route } = this.props;
     const { recipient } = route?.params;
     const { isOnline, isTyping } = this.state;
+    const username = recipient?.username;
     return (
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={this.onPressBack} activeOpacity={0.6}>
           <EntIcon name="chevron-thin-left" color="#c2c2c2" size={25} />
         </TouchableOpacity>
         <View style={[styles.avatar, { backgroundColor: `rgb(${recipient.backgroundColor})` }]}>
-          <Text style={styles.avatarText}>{recipient.username[0].toUpperCase()}</Text>
+          <Text style={styles.avatarText}>{`${username[0].toUpperCase()}${username[1]}`}</Text>
         </View>
         <View style={styles.usernameContainer}>
           <Text style={styles.headerTitle}>{recipient.username}</Text>

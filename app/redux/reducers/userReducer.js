@@ -37,7 +37,7 @@ const sortFriends = (friends) => {
 };
 
 const sortActiveChats = (activeChats) => {
-    return activeChats.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    return activeChats.sort((a, b) => new Date(b.lastMessage.createdAt) - new Date(a.lastMessage.createdAt));
 };
 
 const userReducer = (state = initialState, action) => {

@@ -65,13 +65,16 @@ class ChatList extends Component {
     const sender = lastMessage?.sender;
     const unreadMessages = room?.unreadMessages?.filter(msg => msg.recipient.username === user.username);
     const senderIsMine = sender?.username === user.username;
+    if (message.includes('\n')) {
+      message = `${message.split('\n')[0]}...`;
+    }
     if (message.length > 20) {
       message = `${message?.slice(0, senderIsMine ? 20 : 25)}...`;
     }
     return (
       <TouchableOpacity key={i} style={styles.chatCardContainer} activeOpacity={0.6} onPress={this.onPressRoom(room)}>
         <View style={[styles.avatar, { backgroundColor: `rgb(${backgroundColor})` }]}>
-          <Text style={styles.initialUsername}>{username[0].toUpperCase()}</Text>
+          <Text style={styles.initialUsername}>{`${username[0].toUpperCase()}${username[1]}`}</Text>
         </View>
         <View style={styles.textContainer}>
           <View>

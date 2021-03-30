@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
   initialUsername: {
     color: 'white',
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: 'bold',
   },
   textContainer: {
