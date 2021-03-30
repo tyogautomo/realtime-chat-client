@@ -18,11 +18,38 @@ class Chat extends Component {
   componentDidMount() {
     this.onSetRecipientAndRoom();
     this.onFetchAndReadMessages();
+    this.setHeader();
   }
 
   componentWillUnmount() {
     const { removeCurrentRecipient } = this.props;
     removeCurrentRecipient();
+  }
+
+  setHeader = () => {
+    const { navigation, route } = this.props;
+    const { recipient } = route?.params;
+    navigation.setOptions({
+      headerTitle: props => {
+        return (
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={[styles.avatar, { backgroundColor: `rgb(${recipient.backgroundColor})` }]}>
+              <Text style={styles.avatarText}>{recipient.username[0].toUpperCase()}</Text>
+            </View>
+            <View style={styles.usernameContainer}>
+              <Text style={styles.headerTitle}>{recipient.username}</Text>
+              <Text style={{color: '#c2c2c2'}}>is typing...</Text>
+            </View>
+          </View>
+        );
+      },
+      headerStyle: {
+        backgroundColor: '#232D36',
+        elevation: 0,
+        height: 60,
+      },
+      headerTintColor: 'white',
+    });
   }
 
   onSendChat = () => {
@@ -88,13 +115,14 @@ class Chat extends Component {
           <View style={styles.chatInputBox}>
             <TextInput
               style={styles.textInput}
-              placeholder="Type text..."
+              placeholder="Type message..."
+              placeholderTextColor="grey"
               onChangeText={(message) => this.setState({ message })}
               value={this.state.message}
               multiline={true}
             />
             <TouchableOpacity style={styles.sendButton} activeOpacity={0.8} onPress={this.onSendChat}>
-              <Text style={styles.sendText}>Send</Text>
+              <IonIcon name="send" color="white" size={20} style={styles.sendText} />
             </TouchableOpacity>
           </View>
         </View>

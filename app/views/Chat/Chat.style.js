@@ -1,6 +1,28 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+    headerTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#c2c2c2',
+    },
+    avatar: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 15,
+    },
+    avatarText: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    usernameContainer: {
+        alignSelf: 'stretch',
+        justifyContent: 'space-between',
+    },
     container: {
         flex: 1,
     },
@@ -10,31 +32,34 @@ const styles = StyleSheet.create({
     },
     inputBoxContainer: {
         width: '100%',
-        backgroundColor: '#1c1c1c',
+        // backgroundColor: '#1c1c1c',
         paddingVertical: 7,
-        paddingHorizontal: 15,
+        paddingHorizontal: 10,
     },
     chatInputBox: {
         flexDirection: 'row',
         alignItems: 'center',
     },
     textInput: {
-        backgroundColor: 'white',
-        borderRadius: 5,
+        backgroundColor: '#2C373D',
+        borderRadius: 50,
         flex: 1,
         maxHeight: 90,
+        color: 'white',
+        paddingHorizontal: 15
     },
     sendButton: {
-        backgroundColor: 'skyblue',
+        backgroundColor: '#0AA49D',
         marginLeft: 10,
         height: 50,
-        paddingHorizontal: 15,
-        borderRadius: 5,
+        width: 50,
+        borderRadius: 50,
         justifyContent: 'center',
+        alignItems: 'center',
     },
     sendText: {
         color: 'white',
-        fontSize: 18,
+        marginLeft: 5,
     },
     chatBox: {
         backgroundColor: '#064643',
@@ -59,7 +84,7 @@ const styles = StyleSheet.create({
     },
     messageContainer: {
         flexDirection: 'row',
-        alignItems: 'flex-end',
+        alignItems: 'flex-start',
     },
     textChat: {
         fontSize: 16,

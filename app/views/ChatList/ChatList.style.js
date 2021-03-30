@@ -1,6 +1,18 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    elevation: 3,
+    paddingHorizontal: 20,
+    height: 60,
+    justifyContent: 'center',
+    backgroundColor: '#232D36',
+  },
+  headerTitle: {
+    color: '#c2c2c2',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   container: {
     flex: 1,
     backgroundColor: '#15212A',

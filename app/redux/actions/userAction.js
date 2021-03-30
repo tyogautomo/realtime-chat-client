@@ -134,8 +134,12 @@ const initSocket = () => (dispatch, getState) => {
         dispatch(storeMessages(messages));
     });
     socket.on('send message', ({ message, updatedRoom }) => {
+        const { messageReducer: { currentRoomId } } = getState();
         dispatch(updateActiveRooms(updatedRoom));
         dispatch(storeNewMessage(message, user.username));
+        if (updatedRoom._id?.toString() === currentRoomId) {
+            socket.emit('read messages', currentRoomId, user._id);
+        }
     });
     socket.on('add friend', (friend) => {
         dispatch(addNewFriend(friend));

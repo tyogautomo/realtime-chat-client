@@ -21,12 +21,8 @@ class MainNavigator extends Component {
       <Stack.Navigator screenOptions={{ ...TransitionPresets.SlideFromRightIOS }}>
         {user.username ? (
           <>
-            <Stack.Screen name="ChatList" component={ChatList} options={{ title: `Hello, ${user.username}` }} />
-            <Stack.Screen
-              name="Chat"
-              component={Chat}
-              options={({ route }) => ({ title: `${route.params?.recipient?.username}` })}
-            />
+            <Stack.Screen name="ChatList" component={ChatList} />
+            <Stack.Screen name="Chat" component={Chat} />
             <Stack.Screen name="FriendList" component={FriendList} options={{ title: 'Friends' }} />
             <Stack.Screen name="AddFriend" component={AddFriend} options={{ title: 'Add Friend' }} />
           </>
