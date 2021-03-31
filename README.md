@@ -6,6 +6,25 @@ I try to mock up the UI with Whatsapp as it is the simplest UI for mobile chat a
 For backend service refer to this repo:
 [Repo for Backend](https://github.com/tyogautomo/realtime-chat-server)
 <br/><br/>
+
+## Usage
+To run the app simply doing this step
+1. Clone the repo
+2. Install all depedencies using 
+```
+yarn
+```
+3. Run the app using
+```
+yarn start
+```
+then
+```
+yarn android
+```
+
+<br/>
+
 ## Some GIF to illustrate the Demo:
 
 ### 1. Unread Notification on Chat List
