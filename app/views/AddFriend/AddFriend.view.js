@@ -29,6 +29,7 @@ class AddFriend extends Component {
           <TextInput
             autoFocus
             placeholder="Find new friends..."
+            placeholderTextColor="grey"
             style={styles.textInput}
             onChangeText={this.onChangeText}
           />
@@ -61,7 +62,7 @@ class AddFriend extends Component {
   renderFriendItem = (friend, i) => {
     return (
       <View key={i} style={styles.chatCardContainer}>
-        <View style={styles.avatar}>
+        <View style={[styles.avatar, {backgroundColor: `rgb(${friend.backgroundColor})`}]}>
           <Text style={styles.initialUsername}>{friend?.username[0]?.toUpperCase()}</Text>
         </View>
         <View style={styles.textContainer}>

@@ -23,8 +23,28 @@ class MainNavigator extends Component {
           <>
             <Stack.Screen name="ChatList" component={ChatList} />
             <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
-            <Stack.Screen name="FriendList" component={FriendList} options={{ title: 'Friends' }} />
-            <Stack.Screen name="AddFriend" component={AddFriend} options={{ title: 'Add Friend' }} />
+            <Stack.Screen
+              name="FriendList"
+              component={FriendList}
+              options={{
+                title: 'My Friends',
+                headerStyle: {
+                  backgroundColor: '#232D36',
+                },
+                headerTintColor: 'white',
+              }}
+            />
+            <Stack.Screen
+              name="AddFriend"
+              component={AddFriend}
+              options={{
+                title: 'Add Friend',
+                headerStyle: {
+                  backgroundColor: '#232D36',
+                },
+                headerTintColor: 'white',
+              }}
+            />
           </>
         ) : (
           <>

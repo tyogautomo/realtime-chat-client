@@ -3,17 +3,18 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e3e3e3',
+    backgroundColor: '#15212A',
     paddingHorizontal: 20,
   },
   chatBoxContainer: {
     paddingVertical: 10,
   },
   textInput: {
-    backgroundColor: 'white',
+    backgroundColor: '#2C373D',
     borderRadius: 25,
     height: 50,
     paddingHorizontal: 30,
+    color: 'white',
   },
   listContainer: {
     flex: 1,
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#858585',
   },
   username: {
-    color: '#5c5c5c',
+    color: '#c4c4c4',
     fontSize: 18,
     marginBottom: 4,
     fontWeight: 'bold',
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   buttonFriends: {
-    backgroundColor: 'skyblue',
+    backgroundColor: '#0AA49D',
     width: 60,
     height: 60,
     borderRadius: 30,

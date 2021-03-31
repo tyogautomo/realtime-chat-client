@@ -24,6 +24,7 @@ import {
     REQ_SEARCH_FRIENDS_FAILED,
     EMPTY_SEARCH_FRIEND,
     REMOVE_SEARCH_ITEM,
+    CLEAR_ROOM_MESSAGES,
 } from '../actionTypes';
 import { SocketManager } from '../../socket/socketManager';
 
@@ -226,6 +227,12 @@ const removeCurrentRecipient = () => (dispatch) => {
     dispatch({ type: REMOVE_CURRENT_ROOM });
 };
 
+const clearRoomMessages = () => (dispatch) => {
+    dispatch({
+        type: CLEAR_ROOM_MESSAGES,
+    });
+};
+
 export {
     requestRegister,
     requestLogin,
@@ -239,4 +246,5 @@ export {
     requestSearchFriends,
     emptySearchFriend,
     removeSearchItem,
+    clearRoomMessages,
 };

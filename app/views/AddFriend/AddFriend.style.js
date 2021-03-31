@@ -4,9 +4,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
+    backgroundColor: '#15212A',
   },
   textInput: {
     fontSize: 16,
+    color: 'white',
   },
   chatCardContainer: {
     width: '100%',
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#858585',
   },
   username: {
-    color: '#5c5c5c',
+    color: '#c4c4c4',
     fontSize: 18,
     marginBottom: 4,
     fontWeight: 'bold',
@@ -58,7 +60,7 @@ const styles = StyleSheet.create({
   addButton: {
     paddingHorizontal: 10,
     paddingVertical: 5,
-    backgroundColor: '#0E7BF7',
+    backgroundColor: '#0AA49D',
     borderRadius: 4,
   },
   addButtonText: {

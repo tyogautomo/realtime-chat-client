@@ -51,7 +51,7 @@ class FriendList extends Component {
   renderFriendItem = (friend, i) => {
     return (
       <TouchableOpacity key={i} style={styles.chatCardContainer} activeOpacity={0.6} onPress={this.onPressFriend(friend)}>
-        <View style={[styles.avatar, {backgroundColor: `rgb(${friend.backgroundColor})`}]}>
+        <View style={[styles.avatar, { backgroundColor: `rgb(${friend.backgroundColor})` }]}>
           <Text style={styles.initialUsername}>{friend?.username[0]?.toUpperCase()}</Text>
         </View>
         <View style={styles.textContainer}>
@@ -67,7 +67,11 @@ class FriendList extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.chatBoxContainer}>
-          <TextInput style={styles.textInput} placeholder="Search Friends..." />
+          <TextInput
+            style={styles.textInput}
+            placeholder="Search Friends..."
+            placeholderTextColor="grey"
+          />
         </View>
         <ScrollView style={styles.listContainer}>
           {user?.friends?.map((friend, i) => this.renderFriendItem(friend, i))}

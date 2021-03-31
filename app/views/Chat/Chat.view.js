@@ -26,11 +26,12 @@ class Chat extends Component {
   }
 
   componentWillUnmount() {
-    const { removeCurrentRecipient, socketManager, route } = this.props;
+    const { removeCurrentRecipient, clearRoomMessages, socketManager, route } = this.props;
     const { roomId } = route?.params;
 
     socketManager.socket.emit('notify typing', false, roomId);
     removeCurrentRecipient();
+    clearRoomMessages();
     this.onRemoveListener();
   }
 

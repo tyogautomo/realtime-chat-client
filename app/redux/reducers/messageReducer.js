@@ -3,6 +3,7 @@ import {
   STORE_NEW_MESSAGE,
   SET_CURRENT_ROOM,
   REMOVE_CURRENT_ROOM,
+  CLEAR_ROOM_MESSAGES,
 } from '../actionTypes';
 
 const initialState = {
@@ -47,6 +48,11 @@ const messageReducer = (state = initialState, action) => {
           username: null,
         },
         currentRoomId: null,
+      };
+    case CLEAR_ROOM_MESSAGES:
+      return {
+        ...state,
+        messages: [],
       };
     default:
       return state;
