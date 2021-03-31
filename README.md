@@ -7,3 +7,6 @@ This Realtime Private Chat App built using React Native v0.64, here are several 
 
 ## Read Receipt and "is typing" indicator
 ![read receipt 1](https://i.ibb.co/MVHgBpf/read-receipt-gif-nice.gif)
+
+## Online indicator when in app or background
+![online indicator](https://i.ibb.co/fQ87b8L/online-indicator-gif-nice.gif)
