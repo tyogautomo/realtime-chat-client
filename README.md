@@ -1,7 +1,7 @@
 # Realtime Private Messaging [Client]
 
 This Realtime Private Chat App built using React Native v0.64. <br/>
-I try to mock up the UI with Whatsapp as it is the simplest UI for mobile chat app
+I try to mock up the Whatsapp UI as it is the simplest UI for mobile chat app
 
 For backend service refer to this repo:
 [Repo for Backend](https://github.com/tyogautomo/realtime-chat-server)
