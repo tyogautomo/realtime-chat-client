@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     right: 20,
   },
   textButtonFriends: {
-    fontSize: 35,
+    fontSize: 25,
     color: 'white',
   },
 });

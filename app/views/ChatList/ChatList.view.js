@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView, Text, View, TouchableOpacity, StatusBar } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import AntIcon from 'react-native-vector-icons/AntDesign';
 
 import { styles } from './ChatList.style';
 import { formatTime } from '../../utils/helpers';
@@ -115,7 +116,7 @@ class ChatList extends Component {
           }
         </ScrollView>
         <TouchableOpacity style={styles.buttonFriends} activeOpacity={0.8} onPress={this.onPressFriendList}>
-          <Text style={styles.textButtonFriends}>+</Text>
+          <AntIcon name="user" style={styles.textButtonFriends}/>
         </TouchableOpacity>
       </View>
     );

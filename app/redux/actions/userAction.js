@@ -25,6 +25,8 @@ import {
     EMPTY_SEARCH_FRIEND,
     REMOVE_SEARCH_ITEM,
     CLEAR_ROOM_MESSAGES,
+    SEARCH_MY_FRIENDS,
+    CLEAR_SEARCH_MY_FRIENDS,
 } from '../actionTypes';
 import { SocketManager } from '../../socket/socketManager';
 
@@ -233,6 +235,19 @@ const clearRoomMessages = () => (dispatch) => {
     });
 };
 
+const searchMyFriends = (search) => (dispatch, getState) => {
+    const { userReducer: { user: { friends } } } = getState();
+    dispatch({
+        type: SEARCH_MY_FRIENDS,
+        search,
+        friends,
+    });
+};
+
+const clearSearchMyFriends = () => (dispatch) => {
+    dispatch({ type: CLEAR_SEARCH_MY_FRIENDS });
+};
+
 export {
     requestRegister,
     requestLogin,
@@ -247,4 +262,6 @@ export {
     emptySearchFriend,
     removeSearchItem,
     clearRoomMessages,
+    searchMyFriends,
+    clearSearchMyFriends,
 };

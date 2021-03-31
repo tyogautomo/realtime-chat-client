@@ -3,11 +3,14 @@ import {
   REQ_SEARCH_FRIENDS_SUCCESS,
   REQ_SEARCH_FRIENDS_FAILED,
   EMPTY_SEARCH_FRIEND,
-  REMOVE_SEARCH_ITEM
+  REMOVE_SEARCH_ITEM,
+  SEARCH_MY_FRIENDS,
+  CLEAR_SEARCH_MY_FRIENDS,
 } from '../actionTypes';
 
 const initialState = {
   friendSearch: [],
+  myFriendSearch: [],
 };
 
 const searchReducer = (state = initialState, action) => {
@@ -43,6 +46,19 @@ const searchReducer = (state = initialState, action) => {
         friendSearch,
       };
     }
+    case SEARCH_MY_FRIENDS: {
+      const friends = action.friends;
+      const myFriendSearch = friends.filter(friend => friend.username.includes(action.search));
+      return {
+        ...state,
+        myFriendSearch,
+      };
+    }
+    case CLEAR_SEARCH_MY_FRIENDS:
+      return {
+        ...state,
+        myFriendSearch: [],
+      };
     default:
       return state;
   }
